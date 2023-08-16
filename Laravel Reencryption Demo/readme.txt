@@ -1,0 +1,2 @@
+To run, open terminal at encrypterdecrypter file and run command 'php artisan serve'. should print server running on <ip>. 
+Then open web browser and go to <ip>/clientencryption. Open developer tools and submit form to see returned debugging values from ReencryptionController.
