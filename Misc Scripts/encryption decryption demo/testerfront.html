@@ -1,0 +1,47 @@
+<!--Justin 104138316 August 10-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Account Creation</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/pbkdf2.js"></script>
+</head>
+<body>
+    <h1>Customer Information</h1>
+    <form id="customerForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required><br>
+
+        <button type="button" onclick="processAccountInfo()">Create Account</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+    function processAccountInfo() {
+        const salt = CryptoJS.lib.WordArray.random(16);
+        const encryptionKey = CryptoJS.PBKDF2(document.getElementById('name').value, salt, { keySize: 256 / 32 });
+        const iv = CryptoJS.lib.WordArray.random(16);
+        const encryptedName = CryptoJS.AES.encrypt(document.getElementById('name').value, encryptionKey, { iv: iv }).toString();
+        
+        //display encrypted name
+        document.getElementById('result').innerHTML = 'Encrypted Name: ' + encryptedName + " encryption key: " + encryptionKey + " iv = " + iv;
+        
+        //call PHP function to decrypt and display decrypted name
+        callPhpDecrypt(encryptedName, encryptionKey, iv);
+    }
+
+    function callPhpDecrypt(encryptedName, encryptionKey, iv) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var decryptedName = xhr.responseText;
+                document.getElementById('result').innerHTML += '<br>Decrypted Name (PHP): ' + decryptedName;
+            }
+        };
+        xhr.open("GET", "decrypt.php?encryptedName=" + encryptedName + "&encryptionKey=" + encryptionKey + "&iv=" + iv, true);
+        xhr.send();
+    }
+    </script>
+</body>
+</html>
