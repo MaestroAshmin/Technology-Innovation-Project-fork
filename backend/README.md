@@ -78,6 +78,10 @@ Open Terminal and use following commands:
 
     To create database schema
 
+-   Open .env file and make changes to the database. Match the db name, username and password according to your local machine as follows:
 -   setup database
     ![Alt text](image.png)
+
+Use the following command to migrate the database schema to your database
+
 -   php artisan migrate
