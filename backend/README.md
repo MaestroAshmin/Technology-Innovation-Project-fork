@@ -67,9 +67,17 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## Setup
 
+Open Terminal and use following commands:
+
+-   cd backend
+-   composer update
 -   cp .env.example .env
 -   php artisan key:generate
 -   php artisan cache:clear
 -   php artisan config:clear
+
+    To create database schema
+
 -   setup database
     ![Alt text](image.png)
+-   php artisan migrate
