@@ -1,17 +1,19 @@
 .navbar {
-    background-color: var(--primaryBackgroundColor);
-    color: var(--textColor);
-    padding: 10px 0;
-    display: flex;
-    justify-content: space-between;
-    gap : 30px;
-  }
-  ul{
-    flex: 1;
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-  }
+  background-color: var(--primaryBackgroundColor);
+  color: var(--textColor);
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+ul {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+}
+
 a {
   color: var(--textColor);
   text-decoration: none;

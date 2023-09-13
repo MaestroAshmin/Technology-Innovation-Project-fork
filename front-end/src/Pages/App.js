@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React, { useState } from 'react';
 import '../Css/App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
@@ -10,17 +10,16 @@ import HowToUse from './HowToUse';
 import Services from './Services';
 
 function App() {
-   // Use state to track the login status of the user
-   const isLoggedIn = false;
- 
+
+
   return (
     <Router>
       <div className="App">
-        <Navbar isLoggedIn = {isLoggedIn}/>
+        <Navbar/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login/>} />
+          <Route path="/login" element={<Login />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/how-to-use" element={<HowToUse />} />
           <Route path="/services" element={<Services />} />
