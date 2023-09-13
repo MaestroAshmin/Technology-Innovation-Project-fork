@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('gender'); // Add gender field
             $table->integer('age');   // Add age field
             $table->string('nationality'); // Add nationality field
-            $table->string('postcode');   // Add postcode field
+            $table->integer('postcode');   // Add postcode field
             $table->boolean('role');       // Add role field
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

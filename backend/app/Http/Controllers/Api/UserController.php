@@ -50,4 +50,39 @@ class UserController extends Controller
             'token' => $user->createToken('API TOKEN')->plainTextToken
         ], 200);
     }
+    public function login(Request $request)
+{
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], 422); // Use HTTP status code 422 for validation errors
+        }
+
+        // Attempt to log in the user
+        if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
+            $user = Auth::user();
+            $token = $user->createToken('API Token')->plainTextToken;
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Login Successful',
+                'user' => $user,
+                'token' => $token,
+            ], 200); // Use HTTP status code 200 for successful login
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid Credentials',
+            ], 401); // Use HTTP status code 401 for unauthorized access
+        }
+    }
 }

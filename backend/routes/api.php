@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 // Public Routes
 Route::post('/register', [UserController::class, 'registerUser']);
+Route::post('/login',  [UserController::class, 'login']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
