@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -31,7 +30,7 @@ class UserController extends Controller
                 'status' => false,
                 'message' => 'Validation Error',
                 'errors' => $validator->errors(),
-            ], 422); // Use HTTP status code 422 for validation errors
+            ], 422); // HTTP status code 422 for validation errors
         }
         // Create a new user
         $user = User::create([
@@ -51,7 +50,7 @@ class UserController extends Controller
         ], 200);
     }
     public function login(Request $request)
-{
+    {
         // Validate the request data
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email',
@@ -64,7 +63,7 @@ class UserController extends Controller
                 'status' => false,
                 'message' => 'Validation Error',
                 'errors' => $validator->errors(),
-            ], 422); // Use HTTP status code 422 for validation errors
+            ], 422); // HTTP status code 422 for validation errors
         }
 
         // Attempt to log in the user
@@ -77,12 +76,12 @@ class UserController extends Controller
                 'message' => 'Login Successful',
                 'user' => $user,
                 'token' => $token,
-            ], 200); // Use HTTP status code 200 for successful login
+            ], 200); // HTTP status code 200 for successful login
         } else {
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid Credentials',
-            ], 401); // Use HTTP status code 401 for unauthorized access
+            ], 401); // HTTP status code 401 for unauthorized access
         }
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ForgotPasswordController;
+use App\Http\Controllers\Api\ResetPasswordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +22,9 @@ Route::post('/register', [UserController::class, 'registerUser']);
 Route::post('/login',  [UserController::class, 'login']);
 
 // Protected routes
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+// Route::get('/password/reset/{token}', [ResetPasswordController::class, 'reset'])->name('password.reset-form');
+Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
