@@ -1,7 +1,7 @@
 // Navbar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Navbar.css'; // Import the CSS file
+import '../Css/Navbar.css'; // Import the CSS file
 
 function Navbar({isLoggedIn}) {
   const userProfileImage = isLoggedIn ? './images/user-profile-icon-free-vector.jpg' : null;

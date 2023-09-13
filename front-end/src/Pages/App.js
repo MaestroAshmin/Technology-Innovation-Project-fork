@@ -1,12 +1,12 @@
 import React , {useState} from 'react';
-import './App.css';
+import '../Css/App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './Navbar';
-import Home from './Home';
+import Navbar from '../Components/Navbar';
+import Home from '../Components/Home';
 import Register from './Register';
-import Login from './Login';
-import AboutUs from './AboutUs';
-import HowToUse from './HowToUse';
+import Login from '../Components/Login';
+import AboutUs from '../Components/AboutUs';
+import HowToUse from '../Components/HowToUse';
 import Services from './Services';
 
 function App() {
