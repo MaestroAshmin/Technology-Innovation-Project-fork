@@ -23,7 +23,9 @@ function Navbar() {
         <li className="navbar-item">
           <Link to="/services" className="navbar-link">Services</Link>
         </li>
-
+        <li className="navbar-item">
+          <Link to="/test" className="navbar-link">Log Test</Link>
+        </li>
         <li className="navbar-item">
           <Link to="/register" className="navbar-link"><button>Register</button></Link>
           <Link to="/login" className="navbar-link"><button>Login</button></Link>

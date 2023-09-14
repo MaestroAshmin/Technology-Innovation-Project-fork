@@ -2,6 +2,8 @@
 Justin Li 104138316
 Last edited 14/09/2023*/
 import React from 'react';
+import '../Css/Forms.css';
+
 
 function RegLoginInfo({ formData, handleInputChange, nextStep }) {
   return (

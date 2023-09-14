@@ -2,7 +2,7 @@ import React from 'react';
 import Register from '../Components/RegisterComp';
 function RegisterPage() {
   return (
-    <div className="App">
+    <div className="registerPage">
       <Register />
     </div>
   );
