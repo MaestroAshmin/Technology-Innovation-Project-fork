@@ -1,0 +1,66 @@
+/*CSS for services page
+Justin Li 104138316
+Last edited 14/09/2023*/
+  .header {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .header-text {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .services {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .topRow {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex: 1;
+  }
+  
+  .bottomRow {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex: 3;
+  }
+  
+  .top,
+  .bottom {
+    flex: 1;
+    padding: 5px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  #servicesPic {
+    max-width: 100%; 
+    max-height: 100%; 
+    box-sizing: border-box;
+    border-radius: 8px;
+  }
+  #servicesImageContainer {
+    border-radius: 8px;
+    padding-top: 20px;
+  }
+
+  
+  .list {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
+  
+  .list-item {
+    margin-bottom: 10px; 
+  }
+  
+  

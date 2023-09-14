@@ -16,6 +16,7 @@ function Navbar() {
           <Link to="/about" className="navbar-link">About Us</Link>
           <Link to="/how-to-use" className="navbar-link">How to Use</Link>
           <Link to="/services" className="navbar-link">Services</Link>
+    <Link to="/test" className="navbar-link">Log Test</Link>
         </div>
         <div className="navbar-item buttons">
           <Link to="/register" className="navbar-link"><button>Register</button></Link>
@@ -27,3 +28,5 @@ function Navbar() {
 }
 
 export default Navbar;
+
+
