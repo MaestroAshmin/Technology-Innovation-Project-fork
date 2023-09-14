@@ -1,0 +1,22 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import "../Css/Hero.css";
+
+function Hero() {
+  return (
+    <div className="hero">
+      <div className="hero-content">
+        <div className="hero-text">
+          <h1>We’re here to help</h1>
+          <h2>HIV Support</h2>
+          <p>Join our community to get access to various benefits such as chatting with professionals, finding the nearest clinics, and more.</p>
+          <Link to="/register" className="navbar-link"><button>About us</button></Link>
+          <p>Stop the worry by getting tested with Atomo self-testing kit</p>
+          <a href="https://atomohivtest.com/home.php"><button>Get Tested Today</button></a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Hero;

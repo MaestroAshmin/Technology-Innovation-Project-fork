@@ -1,0 +1,52 @@
+/* Footer Styles */
+.footer {
+    background-color: var(--primaryBackgroundColor);
+    color: var(--textColor);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column; /* Set the direction to column */
+    justify-content: space-between;
+    align-items: center;
+    text-align: center; /* Center-align the information */
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem; /* Add space below social icons section */
+  }
+  
+  .icon {
+    font-size: 24px;
+    text-decoration: none;
+  }
+  
+  .footer-links {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem; /* Add space below links section */
+  }
+  
+  .footer-links a {
+    text-decoration: none;
+    color: var(--textColor);
+    transition: color 0.3s ease; /* Add a smooth transition effect */
+  }
+  
+  .footer-links a:hover {
+    color: #ff6600; /* Change the color on hover */
+  }
+  
+  .footer-info {
+    margin-top: 1rem; /* Add space above the additional information */
+    margin-bottom: 1rem; /* Add space below additional information */
+  }
+  
+  /* Add a border to separate sections */
+  .footer div:not(:last-child) {
+    border-bottom: 1px solid #ffffff; /* Add a border below each section */
+    padding-bottom: 1rem; /* Add space below each section */
+  }
+  
+  /* Add more styles as needed */
+  

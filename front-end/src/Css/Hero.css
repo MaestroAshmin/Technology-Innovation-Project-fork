@@ -1,0 +1,63 @@
+/* Hero Styles */
+.hero {
+    margin-top: 4em; /* Adjust the margin using em units */
+    background-image: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80');
+    background-size: cover;
+    background-position: center;
+    padding: 2em; /* Adjust padding using em units */
+    height: calc(100vh - 4em); /* Adjust height using em units */
+    display: flex;
+    color: #fff;
+  }
+  
+  /* Center the hero-content vertically and horizontally */
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 90%; /* Adjust the height using em units */
+    background-color: rgba(30, 25, 25, 0.759);
+  }
+  
+  /* Style the hero-text (adjust styles as needed) */
+  .hero-text {
+    text-align: center;
+    max-width: 37.5em; /* Adjust the maximum width using em units */
+    padding: 0 1.25em; /* Adjust padding using em units */
+  }
+  
+  .hero-text h1 {
+    font-size: 2.5em; /* Adjust the font size using em units */
+    margin-bottom: 0.625em; /* Adjust margin using em units */
+  }
+  
+  .hero-text h2 {
+    font-size: 1.5em; /* Adjust the font size using em units */
+    margin-bottom: 1em; /* Adjust margin using em units */
+  }
+  
+  .hero-text p {
+    font-size: 1em; /* Adjust the font size using em units */
+    margin-bottom: 1.25em; /* Adjust margin using em units */
+  }
+  
+  /* Style the buttons (adjust styles as needed) */
+  .hero-text button {
+    background-color: #ff6600; /* Customize the button background color */
+    color: #fff; /* Button text color */
+    border: none;
+    padding: 0.625em 1.25em; /* Adjust padding using em units */
+    font-size: 1em; /* Adjust the font size using em units */
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease; /* Add a smooth transition effect */
+    margin-top: 1em;
+    margin-bottom: 3em; /* Adjust margin using em units */
+  }
+  
+  .hero-text button:hover {
+    background-color: #ff3300; /* Change the background color on hover */
+  }
+  

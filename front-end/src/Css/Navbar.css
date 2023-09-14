@@ -1,20 +1,97 @@
+/* Navbar container */
 .navbar {
   background-color: var(--primaryBackgroundColor);
   color: var(--textColor);
-  padding: 10px 0;
-  display: flex;
-  justify-content: space-between;
-  gap: 30px;
+  padding: 1em 0; /* Adjust padding for better spacing */
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2; /* Ensure the navbar is on top of the hero */
 }
 
-ul {
+/* Navbar list */
+.navbar-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem; /* Add horizontal padding to match the hero's padding */
+  /* Center the content horizontally and add space between logo, pages, and buttons */
+}
+
+/* Logo */
+.navbar-list .logo {
+  flex: 1;
+}
+
+/* Rest of your navbar styles here */
+
+.logo img {
+  border-radius: 50%;
+}
+
+/* Pages */
+.navbar-list .pages {
+  flex: 2; /* Adjust the width for better spacing */
+  display: flex;
+  justify-content: space-evenly;
+  list-style: none; /* Remove default list styles */
+  padding: 0; /* Remove padding from the list */
+}
+
+.navbar-list .pages li {
+  margin: 0; /* Remove default margin for list items */
+}
+
+.navbar-list .pages a {
+  text-decoration: none;
+  color: var(--textColor);
+  padding: 10px 15px; /* Adjust padding for better spacing */
+  transition: color 0.3s ease; /* Add a smooth transition effect */
+}
+
+.navbar-list .pages a:hover {
+  color: #ff6600; /* Change the color on hover */
+}
+
+/* Buttons */
+.navbar-list .buttons {
+  text-align: center;
   flex: 1;
   display: flex;
-  justify-content: space-between;
-  list-style: none;
+  justify-content: space-around;
 }
 
-a {
+.navbar-list .buttons button {
+  background-color: var(--textColor);
+  color: var(--primaryBackgroundColor);
+  border: none;
+  border-right: 2px solid var(--primaryBackgroundColor); /* Add a border style (e.g., solid) */
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+}
+
+.navbar-list .buttons button:hover {
+  background-color: #ff6600; /* Change the background color on hover */
   color: var(--textColor);
-  text-decoration: none;
+}
+
+/* Responsive styles for screens smaller than 768px */
+@media (max-width: 768px) {
+  /* Adjust styles as needed for smaller screens */
+  .navbar-list {
+    flex-direction: column; /* Stack items vertically */
+    text-align: center; /* Center align text */
+    padding: 1rem 0; /* Adjust vertical padding for smaller screens */
+  }
+
+  .navbar-list .pages {
+    margin-top: 1em; /* Add space between pages and logo/buttons */
+  }
+
+  .navbar-list .buttons {
+    margin-top: 1em; /* Add space between pages and logo/buttons */
+  }
 }
