@@ -1,4 +1,6 @@
-// Navbar.js
+/*Navbar component
+Le Vy Cao 104201234
+Last edited 14/09/2023*/
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../Css/Navbar.css'; // Import the CSS file

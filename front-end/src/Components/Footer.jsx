@@ -1,3 +1,6 @@
+/*Footer component
+Le Vy Cao 104201234
+Last edited 14/09/2023*/
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link from React Router
 import "../Css/Footer.css";
@@ -7,7 +10,7 @@ function Footer() {
     <footer className="footer">
       <div className="social-icons">
         <a href="#" className="icon">
-          <i className="fa-brands fa-facebook-f" style={{ color: "#ffffff" }}></i>
+        <i class="fa-brands fa-facebook" style={{ color: "#ffffff" }}></i>
         </a>
         <a href="#" className="icon">
           <i className="fa-brands fa-twitter" style={{ color: "#ffffff" }}></i>
