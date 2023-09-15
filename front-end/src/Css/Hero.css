@@ -45,21 +45,36 @@ Last edited 14/09/2023*/
     margin-bottom: 1.25em; /* Adjust margin using em units */
   }
   
-  /* Style the buttons (adjust styles as needed) */
-  .hero-text button {
-    background-color: #ff6600; /* Customize the button background color */
-    color: #fff; /* Button text color */
-    border: none;
-    padding: 0.625em 1.25em; /* Adjust padding using em units */
-    font-size: 1em; /* Adjust the font size using em units */
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s ease; /* Add a smooth transition effect */
-    margin-top: 1em;
-    margin-bottom: 3em; /* Adjust margin using em units */
-  }
-  
-  .hero-text button:hover {
-    background-color: #ff3300; /* Change the background color on hover */
-  }
-  
+
+.orderButton {
+  background-color: var(--primaryBackgroundColor); /* Use the primary background color variable */
+  color: var(--textColor);
+  border: none;
+  border-radius: 5px; /* Add rounded corners */
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.orderButton:hover {
+  background-color: #ff6600; /* Change the background color on hover */
+  color: var(--textColor);
+}
+
+/* Add additional styles for the language buttons if needed */
+.language-buttons button {
+  background-color: var(--primaryBackgroundColor); /* Use the primary background color variable */
+  color: var(--textColor);
+  border: none;
+  border-radius: 5px; /* Add rounded corners */
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.language-buttons button:hover {
+  background-color: #ff6600; /* Change the background color on hover */
+  color: var(--textColor);
+}

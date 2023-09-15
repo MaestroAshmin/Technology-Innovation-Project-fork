@@ -1,0 +1,48 @@
+.instructions-page{
+  margin-top: 5em;
+  padding: 1em;
+  text-align: center;
+}
+.instructions {
+  border-radius: 10px; /* Add rounded corners */
+  height: 80vh;
+  overflow: scroll;
+  background: linear-gradient(45deg, rgba(220, 215, 215, 0.8), rgba(220, 215, 215, 0.6));
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+/* Add styles for the anchor (link) within the paragraph */
+.instructions #link {
+  text-decoration: none;
+  color: var(--primaryBackgroundColor); /* Use the primary background color variable */
+  transition: color 0.3s ease; /* Add a smooth transition effect */
+}
+
+.instructions #link:hover {
+  color: #ff6600; /* Change the color on hover */
+}
+
+
+.instructions video {
+  width: 90%;
+  height: 45%;
+}
+.instructions button {
+  background-color: #ff6600; /* Customize the button background color */
+  color: #fff; /* Button text color */
+  border: none;
+  padding: 0.625em 1.25em; /* Adjust padding using em units */
+  font-size: 1em; /* Adjust the font size using em units */
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+
+}
+button a {
+  text-decoration: none;
+  color: white;
+}
+
+.instructions button:hover {
+  background-color: #ff3300; /* Change the background color on hover */
+}
