@@ -46,8 +46,26 @@
 .instructions button:hover {
   background-color: #ff3300; /* Change the background color on hover */
 }
+/* Instructions.css */
+.orderButton {
+  background-color: var(--primaryBackgroundColor); /* Use the primary background color variable */
+  color: var(--textColor);
+  border: none;
+  border-radius: 5px; /* Add rounded corners */
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
+.orderButton:hover {
+  background-color: #ff6600; /* Change the background color on hover */
+  color: var(--textColor);
+}
 
+.language-buttons{
+  text-align: left;
+}
 /* Add additional styles for the language buttons if needed */
 .language-buttons button {
   background-color: var(--primaryBackgroundColor); /* Use the primary background color variable */

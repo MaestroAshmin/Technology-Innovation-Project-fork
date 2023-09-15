@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Navbar from '../Components/Navbar';
 import '../Css/Instructions.css'; // Import your CSS file for styling
 
 function Instructions() {
@@ -64,13 +63,13 @@ function Instructions() {
   return (<>
     <div className="instructions-page">
       {/* Display the content based on the selected language */}
-      {content[selectedLanguage]}
+      
       <div className="language-buttons">
-        <p>Choose buttons to switch languages</p>
         <button onClick={() => handleLanguageChange('english')}>English</button>
         <button onClick={() => handleLanguageChange('chinese')}>Chinese</button>
         <button onClick={() => handleLanguageChange('spanish')}>Spanish</button>
       </div>
+      {content[selectedLanguage]}
     </div>
   </>
   );
