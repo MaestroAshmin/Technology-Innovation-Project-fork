@@ -1,0 +1,87 @@
+/*chatbot css
+Le Vy Cao 104201234
+Last edited 15/09/2023*/
+  
+  /* Chatbot container */
+  .chatbot {
+    margin: 2em auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 90%; /* Adjust this to your desired width */
+    height: 50vh;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+   
+  }
+  
+  /* Chat header */
+  .chatbot-header {
+    color: var(--primaryBackgroundColor);
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  /* Chat messages container with a fixed height and scrollable */
+  .chatbot-messages {
+    flex: 1;
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px;
+    max-height: 80%; /* Set the desired max height */
+  }
+  
+  /* Individual chat message styles */
+  .message {
+    color: white;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    word-wrap: break-word;
+    border: 1px solid white;
+  }
+  .chatbot .bot{
+    background-color: white;
+    color: var(--primaryBackgroundColor);
+    font-style: italic;
+  }
+
+  .chatbot .user{
+    background-color: #486e88;
+    color: white;
+  }
+
+  /* Chat input form */
+  .chatbot-input {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+  }
+  
+  /* Input field */
+  .chatbot-input input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    outline: none;
+  }
+  
+  /* Send button */
+  .chatbot-input button {
+    background-color: var(--textColor);
+    color: var(--primaryBackgroundColor);
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+
+  .chatbot-input  button:hover {
+  background-color: var(--hoverColor); /* Change the background color on hover */
+  color: var(--textColor);
+}
