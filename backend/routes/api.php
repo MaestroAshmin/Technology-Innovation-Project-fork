@@ -22,9 +22,16 @@ Route::post('/register', [UserController::class, 'registerUser']);
 Route::post('/login',  [UserController::class, 'login']);
 
 // Protected routes
+// Password Reset
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 // Route::get('/password/reset/{token}', [ResetPasswordController::class, 'reset'])->name('password.reset-form');
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
+Route::get('/users', [UserController::class, 'getUsers']);
+Route::delete('users/{id}', [UserController::class, 'deleteUser']);
+// Route::get('/users', [UserController::class, 'getUsers'])->middleware('checkUserRole:1');
+
+// Route::middleware(['auth:api', 'checkUserRole:admin'])->group(function () {
 // });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});

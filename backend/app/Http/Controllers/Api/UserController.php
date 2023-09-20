@@ -84,4 +84,25 @@ class UserController extends Controller
             ], 401); // HTTP status code 401 for unauthorized access
         }
     }
+    // Get Users
+    public function getUsers()
+    {
+        // Assuming you have a 'role' column in your users table
+        $users = User::where('role', 0)->get();
+
+        return response()->json(['users' => $users]);
+    }
+
+    // Delete User
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['status'=> false, 'message' => 'User not found'], 404);
+        }
+
+        $user->delete();
+
+        return response()->json(['status'=> true, 'message' => 'User deleted successfully'], 200);
+    }
 }
