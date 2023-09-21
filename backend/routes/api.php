@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LogTestController;
+use App\Http\Controllers\FaqController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //tungle-routes
 Route::post('/logTest', [LogTestController::class, 'logTest']);
+Route::post('/addFaq', [FaqController::class, 'addFaq']);
