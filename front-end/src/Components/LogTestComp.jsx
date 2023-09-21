@@ -1,22 +1,18 @@
 /*Test logging page
 Justin Li 104138316
-Last edited 14/09/2023*/
+Last edited 21/09/2023*/
 import React, { useState } from 'react';
 
 function LogTest() {
 
 //state management
   const [testResult, setTestResult] = useState('negative');
-  const [reasonForTesting, setReasonForTesting] = useState('');
+  const [testReason, setTestReason] = useState('none');
   const [receivePDF, setReceivePDF] = useState('no');
   const [sendToServices, setSendToServices] = useState('no');
 
   const handleTestResultChange = (e) => {
     setTestResult(e.target.value);
-  };
-
-  const handleReasonChange = (e) => {
-    setReasonForTesting(e.target.value);
   };
 
   const handleReceivePDFChange = (e) => {
@@ -26,10 +22,23 @@ function LogTest() {
   const handleSendToServicesChange = (e) => {
     setSendToServices(e.target.value);
   };
+  const handleTestReasonChange = (e) => {
+    setTestReason(e.target.value);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
+  const reasonOptions = [
+    { value: 'none', label: 'None' },
+    { value: 'unprotected_sex', label: 'Unprotected Sex' },
+    { value: 'sharing_needles', label: 'Sharing Needles' },
+    { value: 'blood_transfusions', label: 'Blood Transfusions' },
+    { value: 'occupational_exposure', label: 'Occupational Exposure' },
+    { value: 'needlestick_injury', label: 'Needlestick Injury' },
+    { value: 'other', label: 'Other' },
+  ];
 
   //returns test logging form
   return (
@@ -54,13 +63,17 @@ function LogTest() {
             </div>
             <div className="form-group">
               <label htmlFor="reasonForTesting" className='form-field-optional'>Reason for Testing*</label>
-              <textarea
+              <select
                 id="reasonForTesting"
                 name="reasonForTesting"
-                value={reasonForTesting}
-                onChange={handleReasonChange}
+                value={testReason} 
+                onChange={handleTestReasonChange} 
                 className="form-input"
-              />
+              >
+                {reasonOptions.map(option => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
             </div>
             <div className="form-group">
               <label htmlFor="receivePDF" className='form-field-optional'>Would you like to download a

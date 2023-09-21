@@ -1,11 +1,13 @@
 /*services page
 Justin Li 104138316
-Last edited 14/09/2023*/
+Last edited 21/09/2023*/
 import React, { useState, useEffect } from 'react';
 import '../Css/Services.css';
 import Header from '../Components/ServicesHeader';
 import Image from '../Components/ServicesImage';
 import List from '../Components/ServicesList';
+import Navbar from '../Components/Navbar';
+import Footer from '../Components/Footer'
 
 function ServicesPage() {
   const [testingServices, setTestingServices] = useState([]);
@@ -22,6 +24,8 @@ function ServicesPage() {
   }, []);
 
   return (
+  <div className = 'page'>
+    <Navbar />
     <div className="services">
       <div className='topRow'>
       <div className="top">
@@ -40,6 +44,8 @@ function ServicesPage() {
       </div>
       </div>
     </div>
+    <Footer />
+  </div>
   );
 }
 
