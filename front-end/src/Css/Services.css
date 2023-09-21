@@ -1,6 +1,6 @@
 /*CSS for services page
 Justin Li 104138316
-Last edited 14/09/2023*/
+Last edited 21/09/2023*/
   .header {
     text-align: center;
     margin: 20px;
@@ -15,7 +15,8 @@ Last edited 14/09/2023*/
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
+    margin-top: 6em;
+    padding: 2em;
   }
   
   .topRow {
@@ -41,8 +42,8 @@ Last edited 14/09/2023*/
   }
   
   #servicesPic {
-    max-width: 100%; 
-    max-height: 100%; 
+    max-width: 60%; 
+    max-height: 60%; 
     box-sizing: border-box;
     border-radius: 8px;
   }
@@ -57,6 +58,7 @@ Last edited 14/09/2023*/
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
+    height: 20em;
   }
   
   .list-item {
