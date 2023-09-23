@@ -17,7 +17,22 @@ class FaqController extends Controller
 
         return $faq;
     }
+    // get a single product from the database
+    function getFaq($id)
+    {
+        return Faq::find($id);
+    }
+
     // edit questions in the database
+    function updateFaq(Request $req, $id)
+    {   
+        $faq = Faq::find($id);
+        $faq->question = $req->input('question');
+        $faq->answer = $req->input('answer');
+        $faq->save();
+
+        return $faq;
+    }
 
     // list all question and answer from database
     function listFaq()
