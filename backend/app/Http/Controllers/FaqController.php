@@ -49,4 +49,10 @@ class FaqController extends Controller
             return $id;
         }
     }
+
+    // search for a frequent question and answer
+    function searchFaq($key)
+    {
+        return Faq::where('question', 'like', "%$key%")->get();
+    }
 }
