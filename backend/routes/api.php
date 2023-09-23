@@ -25,3 +25,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //tungle-routes
 Route::post('/logTest', [LogTestController::class, 'logTest']);
 Route::post('/addFaq', [FaqController::class, 'addFaq']);
+Route::get('/listFaq', [FaqController::class, 'listFaq']);
+Route::delete('/deleteFaq/{id}', [FaqController::class, 'deleteFaq']);
