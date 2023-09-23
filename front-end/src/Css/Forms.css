@@ -1,6 +1,6 @@
 /*CSS for form elements
 Justin Li 104138316
-Last edited 14/09/2023*/
+Last edited 21/09/2023*/
 .container {
   background-color: var(--primaryBackgroundColor);
   color: var(--primaryBackgroundColor);
@@ -15,6 +15,11 @@ Last edited 14/09/2023*/
   transition: transform 0.2s ease;
 }
 
+.form-container {
+  margin-top: 4em; 
+  margin-bottom: 4em;
+  padding: 2em;
+}
 .form {
   background-color: #fff;
   padding: 20px;
