@@ -27,3 +27,6 @@ Route::post('/logTest', [LogTestController::class, 'logTest']);
 Route::post('/addFaq', [FaqController::class, 'addFaq']);
 Route::get('/listFaq', [FaqController::class, 'listFaq']);
 Route::delete('/deleteFaq/{id}', [FaqController::class, 'deleteFaq']);
+Route::get('/getFaq/{id}', [FaqController::class, 'getFaq']);
+Route::post('/updateFaq/{id}', [FaqController::class, 'updateFaq']);
+Route::get('/searchFaq/{key}', [FaqController::class, 'searchFaq']);
