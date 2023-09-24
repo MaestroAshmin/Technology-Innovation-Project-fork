@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,3 +31,4 @@ Route::delete('/deleteFaq/{id}', [FaqController::class, 'deleteFaq']);
 Route::get('/getFaq/{id}', [FaqController::class, 'getFaq']);
 Route::post('/updateFaq/{id}', [FaqController::class, 'updateFaq']);
 Route::get('/searchFaq/{key}', [FaqController::class, 'searchFaq']);
+Route::post('/chat', [ChatController::class, 'chat']);
