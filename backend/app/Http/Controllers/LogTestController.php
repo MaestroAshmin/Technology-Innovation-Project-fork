@@ -14,14 +14,10 @@ class LogTestController extends Controller
 
         // get data from input
         $testResult->test_result_id = $req->input('test_result_id');
-        $testResult->email = $req->input('email');
-        $testResult->result = $req->input('result');
-        $testResult->test_date = $req->input('test_date');
-        $testResult->risk_exposure = $req->input('risk_exposure');
-        $testResult->reasons_for_testing = $req->input('reasons_for_testing');
-        $testResult->no_of_kits_purchased = $req->input('no_of_kits_purchased');
-        $testResult->purchase_date = $req->input('purchase_date');
         $testResult->user_id = $req->input('user_id');
+        $testResult->result = $req->input('test_result');
+        $testResult->test_date = $req->input('test_date');
+        $testResult->risk_exposure = $req->input('risk_exposure');    
 
         // save data collected to the database
         $testResult->save();
