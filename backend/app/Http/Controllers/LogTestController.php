@@ -13,9 +13,8 @@ class LogTestController extends Controller
         $testResult = new TestResult;
 
         // get data from input
-        $testResult->test_result_id = $req->input('test_result_id');
         $testResult->user_id = $req->input('user_id');
-        $testResult->result = $req->input('test_result');
+        $testResult->test_result = $req->input('test_result');
         $testResult->test_date = $req->input('test_date');
         $testResult->risk_exposure = $req->input('risk_exposure');    
 
