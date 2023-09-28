@@ -20,6 +20,19 @@ Last edited 21/09/2023*/
   margin-bottom: 4em;
   padding: 2em;
 }
+/* Styles for the "errmsg" class */
+.errmsg {
+  color: red; /* Set the text color to red */
+  font-size: 16px; /* Set the font size to 16 pixels */
+  /* Add more styles as needed */
+}
+
+/* Styles for the "offscreen" class */
+.offscreen {
+  display: none; /* Hide the element by default */
+  /* Add more styles as needed */
+}
+
 .form {
   background-color: #fff;
   padding: 20px;
