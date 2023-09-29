@@ -19,7 +19,6 @@ function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep }) {
             name="age"
             value={formData.age}
             onChange={handleInputChange}
-            prevStep={prevStep}
             required
             className="form-input"
           />
@@ -72,7 +71,7 @@ function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep }) {
         </div>
         <p>*Fields labelled in italics are optional.</p>
         <div>
-         <button onClick={prevStep} className="login-button">
+        <button type="button" onClick={prevStep} className="login-button">
             Back
           </button>
           <button type="submit" className="login-button">
