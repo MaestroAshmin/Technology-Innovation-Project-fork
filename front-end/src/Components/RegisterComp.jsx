@@ -3,10 +3,12 @@ Justin Li 104138316
 Last edited 14/09/2023*/
 
 import React, { useState } from 'react';
+import axios from 'axios';
 import RegLoginInfo from './RegLoginInfo';
 import RegDemoInfo from './RegDemoInfo';
 
 function Registration() {
+  //form data state
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -19,7 +21,7 @@ function Registration() {
     postcode: '',
   });
 
-  /*Constants for handling form navigation*/ 
+  //constants for handling form navigation
   const [step, setStep] = useState(1);
 
   const handleInputChange = (e) => {
@@ -38,13 +40,20 @@ function Registration() {
     setStep(step - 1);
   };
 
-/*Will contain logic for sending data to the backend*/
+  //posts to backend
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
+    axios
+      .post('http://localhost:8000/api/register', formData)
+      .then((response) => {
+        console.log('Registration successful:', response.data);
+      })
+      .catch((error) => {
+        console.error('Registration error:', error);
+      });
   };
 
-  /*returns navigation logic */
+  //returns navigation logic
   return (
     <div className="layout">
       <div className="container">
