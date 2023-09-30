@@ -71,7 +71,7 @@ function RegLoginInfo({ formData, handleInputChange, nextStep }) {
           />
         </div>
         <div>
-          <button type="submit" className="login-button">
+          <button type="button" onClick={nextStep} className="login-button">
             Next
           </button>
         </div>

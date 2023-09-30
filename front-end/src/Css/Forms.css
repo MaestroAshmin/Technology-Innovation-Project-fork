@@ -1,6 +1,4 @@
-/*CSS for form elements
-Justin Li 104138316
-Last edited 21/09/2023*/
+/*CSS for form elements*/
 .container {
   background-color: var(--primaryBackgroundColor);
   color: var(--primaryBackgroundColor);
@@ -20,20 +18,36 @@ Last edited 21/09/2023*/
   margin-bottom: 4em;
   padding: 2em;
 }
-/* Styles for the "errmsg" class */
+
 .errmsg {
-  color: red; /* Set the text color to red */
-  font-size: 16px; /* Set the font size to 16 pixels */
-  /* Add more styles as needed */
+  color: red; 
+  font-size: 16px; 
+
 }
 
-/* Styles for the "offscreen" class */
+
+
+
 .offscreen {
-  display: none; /* Hide the element by default */
-  /* Add more styles as needed */
+  display: none; 
 }
 
 .form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  transition: transform 0.2s ease;
+  margin: 0 auto; 
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+}
+
+.reg-result{
+  margin-top:4em; 
+  padding: 2em;
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
