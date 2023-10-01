@@ -30,6 +30,6 @@ return [
 
     'allowed_headers' => ['*'],
 
-    'allowed_origins' => ['http://localhost:3000']
+    'allowed_origins' => ['*']
 
 ];
