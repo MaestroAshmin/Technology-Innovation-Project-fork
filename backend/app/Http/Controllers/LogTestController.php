@@ -10,21 +10,35 @@ class LogTestController extends Controller
 {
     //
     function logTest(Request $req) 
-    {
+    {   
+        // Customise error messages
+        $messages = [
+            'user_id.required' => 'User ID is required',
+            'user_id.integer' => 'User ID must be integer',
+            'user_id.exists' => 'User with the the provided ID does is not found',
+            'test_result.required' => 'Test result is required.',
+            'test_result.string' => 'Test result must be a string.',
+            'test_result.max' => 'Test result length must not be greater than 20 characters.',
+            'test_date.date' => 'Test date is invalid',
+            'risk_exposure.string' => 'Risk exposure must be a string',
+            'risk_exposure.max' => 'Risk exposure must not exceed 20 characters',
+        ];
+
+
         // validate the request data
          $validator = Validator::make($req->all(), [
             'user_id' => 'required|integer|exists:users,user_id',
             'test_result' => 'required|string|max:20',
             'test_date' => 'nullable|date',
             'risk_exposure' => 'nullable|string|max:20',
-        ]);
+        ], $messages);
 
         // check if the validation fails
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
                 'message' => 'Validation error',
-                $validator->errors()
+                'error'=> $validator->errors()
             ], 400);
         }      
 

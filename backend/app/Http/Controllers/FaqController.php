@@ -11,18 +11,28 @@ class FaqController extends Controller
     // add new question and answer to the database
     function addFaq(Request $req) 
     {   
+        // Customize error message
+        $messages = [
+            'question.required' => 'The question must not be empty',
+            'question.string' => 'The question must be a string',
+            'question.max' => 'The question length must not be greater than 255',
+            'question.unique' => 'This question already exists, please choo another one',
+            'answer.required' => 'The answer field must not be empty',
+            'answer.string' => 'The answer must be a string',
+        ];
+
         // Validate the request data
         $validator = Validator::make($req->all(), [
             'question' => 'required|string|max:255|unique:faq,question',
             'answer' => 'required|string',
-        ]);
+        ], $messages);
 
         // Check if validation fails
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
                 'message' => 'Validation Error',
-                $validator->errors()
+                'error' => $validator->errors()
             ], 400);
         }
 
@@ -66,18 +76,28 @@ class FaqController extends Controller
             ], 404);
         }
 
+        // Customise error messages
+        $messages = [
+            'question.required' => 'The question must not be empty',
+            'question.string' => 'The question must be a string',
+            'question.max' => 'The question length must not be greater than 255',
+            'question.unique' => 'This question already exists, please choo another one',
+            'answer.required' => 'The answer field must not be empty',
+            'answer.string' => 'The answer must be a string',
+        ];
+
         // Validate the request data
         $validator = Validator::make($req->all(), [
             'question' => 'required|string|max:255|unique:faq,question,' . $id,
             'answer' => 'required|string',
-        ]);
+        ], $messages);
 
         // Check if validation fails
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
                 'message' => 'Validation Error',
-                $validator->errors()
+                'error' => $validator->errors()
             ], 400);
         }
         
