@@ -10,7 +10,7 @@ function Footer() {
     <footer className="footer">
       <div className="social-icons">
         <a href="#" className="icon">
-        <i class="fa-brands fa-facebook" style={{ color: "#ffffff" }}></i>
+        <i className="fa-brands fa-facebook" style={{ color: "#ffffff" }}></i>
         </a>
         <a href="#" className="icon">
           <i className="fa-brands fa-twitter" style={{ color: "#ffffff" }}></i>

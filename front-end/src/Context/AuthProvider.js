@@ -1,15 +1,50 @@
-import {createContext, useState} from "react";
+// AuthProvider.js
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const AuthContext = createContext({});
+const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
-    const [auth, setAuth] = useState({});
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
 
-    return (
-        <AuthContext.Provider value={{auth, setAuth}}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState({token: null, postcode: null});
+  const [auth, setAuth] = useState(false);
 
-export default AuthContext;
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    const postcode = localStorage.getItem('userPostcode');
+    if (token) {
+      setUser({ token, postcode });
+      setAuth(true);
+    }
+  }, []);
+
+  const login = (token, postcode) => {
+    localStorage.setItem('authToken', token);
+    localStorage.setItem('userPostcode', postcode);
+    setUser({ token });
+    setAuth(true);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userPostcode');
+    setUser(null);
+    setAuth(false);
+  };
+
+  const contextValue = {
+    user,
+    login,
+    logout,
+    auth,
+  };
+
+  return (
+    <AuthContext.Provider value={contextValue}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

@@ -8,9 +8,13 @@ import HowToUse from './HowToUse';
 import Services from './Services';
 import LogTest from './LogTest';
 import Faq from './Faq';
+//wraps whole app
+import { AuthProvider } from '../Context/AuthProvider';
 
 function App() {
   return (
+    //wrap whole app with AuthProvider so all can access
+    <AuthProvider>
     <Router>
       <div className="App">
         <Routes>
@@ -25,6 +29,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </AuthProvider>
   );
 }
 

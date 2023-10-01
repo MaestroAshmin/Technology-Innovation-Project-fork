@@ -4,7 +4,7 @@ Last edited 14/09/2023*/
 
 import React from 'react';
 
-function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep }) {
+function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep, nextStep}) {
   return (
     <div className="form registration-form">
       <h2>Demographic Information</h2>
@@ -19,8 +19,6 @@ function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep }) {
             name="age"
             value={formData.age}
             onChange={handleInputChange}
-            prevStep={prevStep}
-            required
             className="form-input"
           />
         </div>
@@ -33,7 +31,6 @@ function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep }) {
             name="gender"
             value={formData.gender}
             onChange={handleInputChange}
-            required
             className="form-input"
           >
             <option value="na">Prefer not to say</option>
@@ -52,7 +49,6 @@ function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep }) {
             name="nationality"
             value={formData.nationality}
             onChange={handleInputChange}
-            required
             className="form-input"
           />
         </div>
@@ -66,13 +62,12 @@ function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep }) {
             name="postcode"
             value={formData.postcode}
             onChange={handleInputChange}
-            required
             className="form-input"
           />
         </div>
         <p>*Fields labelled in italics are optional.</p>
         <div>
-         <button onClick={prevStep} className="login-button">
+        <button type="button" onClick={prevStep} className="login-button">
             Back
           </button>
           <button type="submit" className="login-button">

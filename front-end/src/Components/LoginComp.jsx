@@ -1,15 +1,14 @@
-/*Login component
-Justin Li 104138316
-Last edited 14/09/2023*/
-import React, { useState, useEffect, useRef, useContext} from 'react';
-import AuthContext from "../Context/AuthProvider";
+import React, { useState, useEffect, useRef } from 'react';
+import { useAuth } from "../Context/AuthProvider";
 import axios from '../api/axios';
 import '../Css/Forms.css';
+//for routing after login https://stackoverflow.com/questions/62861269/attempted-import-error-usehistory-is-not-exported-from-react-router-dom
+import { useNavigate } from 'react-router-dom';
 
-const LOGIN_URL = 'http://localhost:8000/api/login'; // Replace with the actual route path
+const LOGIN_URL = 'http://localhost:8000/api/login';
 
 function Login() {
-  const {setAuth} = useContext(AuthContext);
+  const { login } = useAuth(); 
   const userRef = useRef();
   const errRef = useRef();
 
@@ -18,96 +17,104 @@ function Login() {
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
 
-  useEffect(()=>{
-    userRef.current.focus();
-  }, [])
+  const navigate = useNavigate();
 
-  useEffect(() =>{
-    setErrMsg('');
-  }, [email, password])
- 
-  /*needs to contain logic for interacting with the backend*/ 
+  //for submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
-      const response = await axios.post(LOGIN_URL, 
-        JSON.stringify({email, password}),
+      //post form data
+      const response = await axios.post(
+        LOGIN_URL,
+        JSON.stringify({ email, password }),
         {
-          headers: {'Content-Type' : 'application/json'},
-          withCredentials: true
+          headers: { 'Content-Type': 'application/json' },
+          //needs this
+          withCredentials: true,
         }
-        );
-        console.log(response);
+      );
+      
+      //check login success
+      if (response.data.status) {
+        //if successful, call AuthProvider login function
+        login(response.data.token, response.data.user.postcode);
+        setSuccess(true);
+        //routes to test logging page
+        navigate('/test');
+      }
 
       setEmail('');
       setPassword('');
-      // Handle the response as needed
     } catch (error) {
-      // Handle errors
+      //err
+      console.error('Login error:', error);
+      setErrMsg('Invalid credentials. Please try again.');
     }
-    setSuccess(true);
-
-
-
   };
 
-  /*returns login form */
   return (
     <>
-    {
-      success ? (<section>
-        hi, you logged in
-      </section>) :
-      (
-    <div className="layout">
-      <div className="container">
-        <div className="form">
-          <p ref={errRef} className={errMsg ? "errmsg" : "offscreen" }>{errMsg}</p>
-          <h2>Login</h2>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor='email' className="form-label">Email</label>
-              <input
-                type="email"
-                id='email'
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e)=>{setEmail(e.target.value);}}
-                required
-                className="form-input"
-                ref={userRef}
-              />
+      {success ? (
+        <section>
+          Welcome! You are logged in.
+        </section>
+      ) : (
+        <div className="layout">
+          <div className="container">
+            <div className="form">
+              <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'}>
+                {errMsg}
+              </p>
+              <h2>Login</h2>
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <label htmlFor="email" className="form-label">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                    required
+                    className="form-input"
+                    ref={userRef}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="password" className="form-label">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="form-input"
+                  />
+                </div>
+                <div>
+                  <button type="submit" className="login-button">
+                    Login
+                  </button>
+                </div>
+              </form>
+              <p>
+                <a href="/Register" className="link">
+                  Don't have an account? Click here to register!
+                </a>
+              </p>
             </div>
-            <div>
-              <label htmlFor='password' className="form-label">Password</label>
-              <input
-                type="password"
-                id='password'
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e)=> setPassword(e.target.value)}
-                required
-                className="form-input"
-              />
-            </div>
-            <div>
-              <button type="submit" className="login-button">
-                Login
-              </button>
-            </div>
-          </form>
-          <p><a href="/Register" className="link">Don't have an account? Click here to register!</a></p>
+          </div>
         </div>
-      </div>
-    </div>
-      )
-}
+      )}
     </>
   );
-  
 }
 
 export default Login;
-
-

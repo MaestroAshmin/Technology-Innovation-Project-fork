@@ -1,7 +1,6 @@
-/*Test logging page
-Justin Li 104138316
-Last edited 21/09/2023*/
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../Context/AuthProvider'; 
+import { useNavigate } from 'react-router-dom';
 
 function LogTest() {
 
@@ -10,6 +9,10 @@ function LogTest() {
   const [testReason, setTestReason] = useState('none');
   const [receivePDF, setReceivePDF] = useState('no');
   const [sendToServices, setSendToServices] = useState('no');
+
+  const { auth } = useAuth(); 
+  const navigate = useNavigate(); 
+
 
   const handleTestResultChange = (e) => {
     setTestResult(e.target.value);
@@ -30,6 +33,8 @@ function LogTest() {
     e.preventDefault();
   };
 
+  
+
   const reasonOptions = [
     { value: 'none', label: 'None' },
     { value: 'unprotected_sex', label: 'Unprotected Sex' },
@@ -39,6 +44,13 @@ function LogTest() {
     { value: 'needlestick_injury', label: 'Needlestick Injury' },
     { value: 'other', label: 'Other' },
   ];
+
+  useEffect(() => {
+    // Check if the user is not authenticated and navigate to the login page
+    if (!auth) {
+      navigate('/login'); 
+    }
+  }, [auth, navigate]);
 
   //returns test logging form
   return (

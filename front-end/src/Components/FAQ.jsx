@@ -69,7 +69,7 @@ function FAQ() {
         {faqData.map((item) => (
           <li key={item.id} className={`faq-item ${openItems.includes(item.id) ? 'open' : ''}`}>
             <div className="faq-question" onClick={() => toggleItem(item.id)}>
-              {openItems.includes(item.id) ? <i class="fa-solid fa-minus"></i> :<i class="fa-solid fa-plus"></i>}{item.question}
+              {openItems.includes(item.id) ? <i className="fa-solid fa-minus"></i> :<i className="fa-solid fa-plus"></i>}{item.question}
             </div>
             {openItems.includes(item.id) && <div className="faq-answer">{item.answer}</div>}
           </li>
