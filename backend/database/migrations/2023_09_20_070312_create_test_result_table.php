@@ -17,8 +17,8 @@ class CreateTestResultTable extends Migration
     public function up()
     {
         //php 
-        Schema::create('testResult', function (Blueprint $table) {
-            $table->increments('id');  //primary key
+        Schema::create('test_result', function (Blueprint $table) {
+            $table->increments('test_result_id');  //primary key
             $table->bigInteger('user_id')->unsigned(); //foreign key
             $table->string('test_result',20)->notNull();   //test_result can't be null
             $table->date('test_date')->nullable();
@@ -36,7 +36,11 @@ class CreateTestResultTable extends Migration
      */
     public function down()
     {
-        //
-        Schema::dropIfExists('testResult');
+        Schema::table('test_result', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
+
+        // drop the table
+        Schema::dropIfExists('test_result');
     }
 }
