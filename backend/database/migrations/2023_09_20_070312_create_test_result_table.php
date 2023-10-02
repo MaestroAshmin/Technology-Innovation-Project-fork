@@ -25,7 +25,7 @@ class CreateTestResultTable extends Migration
             $table->string('risk_exposure',20)->nullable();
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('user_id')->references('user_id')->on('users');  //foreign key
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('CASCADE');  //foreign key
         });
     }
 
