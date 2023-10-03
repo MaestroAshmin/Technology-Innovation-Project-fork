@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LogTestController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\AnonymousUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,4 +53,4 @@ Route::get('/getFaq/{id}', [FaqController::class, 'getFaq']);
 Route::post('/updateFaq/{id}', [FaqController::class, 'updateFaq']);
 Route::get('/searchFaq/{key}', [FaqController::class, 'searchFaq']);
 Route::post('/chat', [ChatController::class, 'chat']);
-
+Route::post('/trackAnonymousUser', [AnonymousUserController::class, 'trackAnonymousUser']);
