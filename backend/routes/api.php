@@ -31,6 +31,8 @@ Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkE
 // Route::get('/password/reset/{token}', [ResetPasswordController::class, 'reset'])->name('password.reset-form');
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
 Route::get('/users', [UserController::class, 'getUsers']);
+Route::get('/users/{user_id}', [UserController::class, 'getUserByID']);
+Route::post('/users/{user_id}', [UserController::class, 'updateUser']);
 Route::delete('users/{id}', [UserController::class, 'deleteUser']);
 // Route::get('/users', [UserController::class, 'getUsers'])->middleware('checkUserRole:1');
 Route::post('/services/sort', 'App\Http\Controllers\ServiceController@sortServices');
