@@ -185,4 +185,8 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'curl' => [
+        CURLOPT_CAINFO => storage_path('cacert.pem'),
+    ],
+
 ];
