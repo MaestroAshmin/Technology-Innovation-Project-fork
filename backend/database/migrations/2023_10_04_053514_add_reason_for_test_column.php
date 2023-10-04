@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('test_result', function (Blueprint $table) {
             // drop reason_for_test column
-            $table->dropColumn('text_exposure_reason');
+            $table->dropColumn('reason_for_test');
         });
     }
 };

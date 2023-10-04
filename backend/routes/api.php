@@ -57,6 +57,7 @@ Route::get('/getFaq/{id}', [FaqController::class, 'getFaq']);
 Route::post('/updateFaq/{id}', [FaqController::class, 'updateFaq']);
 Route::get('/searchFaq/{key}', [FaqController::class, 'searchFaq']);
 Route::post('/chat', [ChatController::class, 'chat']);
+Route::post('/trackAnonymousUser', [AnonymousUserController::class, 'trackAnonymousUser']);
 
 //yujia
 Route::get('/storeServices', [ServiceController::class, 'storeServices']);
@@ -65,4 +66,4 @@ Route::post('/searchService', [ServiceController::class, 'searchService']);
 Route::delete('/deleteService/{id}', [ServiceController::class, 'deleteService']);
 Route::post('/addService', [ServiceController::class, 'addService']);
 Route::post('/updateService/{id}', [ServiceController::class, 'updateService']);
-Route::post('/trackAnonymousUser', [AnonymousUserController::class, 'trackAnonymousUser']);
+
