@@ -11,6 +11,7 @@ use App\Http\Controllers\LogTestController;
 use App\Http\Controllers\FaqController;
 
 use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\AnonymousUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,4 +65,4 @@ Route::post('/searchService', [ServiceController::class, 'searchService']);
 Route::delete('/deleteService/{id}', [ServiceController::class, 'deleteService']);
 Route::post('/addService', [ServiceController::class, 'addService']);
 Route::post('/updateService/{id}', [ServiceController::class, 'updateService']);
-
+Route::post('/trackAnonymousUser', [AnonymousUserController::class, 'trackAnonymousUser']);
