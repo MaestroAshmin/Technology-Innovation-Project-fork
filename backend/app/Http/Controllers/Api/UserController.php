@@ -98,6 +98,53 @@ class UserController extends Controller
 
         return response()->json(['users' => $users]);
     }
+    // Get User by ID
+    public function getUserById($user_id)
+    {
+        // Find the user by ID
+        $user = User::find($user_id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json(['message' => 'User found', 'user' => $user], Response::HTTP_OK);
+    }
+    // Update user data
+    public function updateUser(Request $request, $user_id)
+    {
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|unique:users,email|email',
+            'gender' => 'required|string',
+            'age' => 'required|integer|gte:10|lte:100',
+            'nationality' => 'required|string|max:255',
+            'postcode' => 'required|integer|digits_between:1,4',
+        ]);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], 422); // HTTP status code 422 for validation errors
+        }
+        $user = User::find($user_id);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        // Update the user data
+        dd($user->fill($request->all())->save());
+        dd($user);exit;
+        return response()->JSON([
+            'status' => true,
+            'message' => 'Successfully updated details',
+            'user' => $user,
+            'token' => $user->createToken('EDIT DETAILS TOKEN')->plainTextToken
+        ], 200);;
+    }
 
     // Delete User
     public function deleteUser($id)
