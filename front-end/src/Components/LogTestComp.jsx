@@ -1,8 +1,12 @@
+
+
 import React, { useState, useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function LogTest() {
+
   //state management
   const [testResult, setTestResult] = useState('negative');
   const [riskExposure, setRiskExposure] = useState('none');
@@ -16,11 +20,6 @@ function LogTest() {
   const handleTestResultChange = (e) => {
     setTestResult(e.target.value);
   };
-
-  const handleReceivePDFChange = (e) => {
-    setReceivePDF(e.target.value);
-  };
-
   const handleSendToServicesChange = (e) => {
     setSendToServices(e.target.value);
   };
@@ -191,6 +190,7 @@ function LogTest() {
         </div>
       </div>
     </div>
+
   );
 }
 

@@ -42,6 +42,7 @@ class UserController extends Controller
             'nationality' => $request->input('nationality'),
             'postcode' => $request->input('postcode'),
             'role' => 0, // role is 0 by default for user registration indicating normal user
+            'last_login' => now(),
         ]);
         return response()->JSON([
             'status' => true,
