@@ -9,28 +9,31 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({token: null, postcode: null});
+  const [user, setUser] = useState({ token: null, postcode: null, user_id: null });
   const [auth, setAuth] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     const postcode = localStorage.getItem('userPostcode');
+    const user_id = localStorage.getItem('userId')
     if (token) {
-      setUser({ token, postcode });
+      setUser({ token, postcode , user_id});
       setAuth(true);
     }
   }, []);
 
-  const login = (token, postcode) => {
+  const login = (token, postcode, user_id) => {
     localStorage.setItem('authToken', token);
     localStorage.setItem('userPostcode', postcode);
-    setUser({ token });
+    localStorage.setItem('userId', user_id);
+    setUser({ token, postcode, user_id });
     setAuth(true);
   };
 
   const logout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userPostcode');
+    localStorage.removeItem('userId');
     setUser(null);
     setAuth(false);
   };

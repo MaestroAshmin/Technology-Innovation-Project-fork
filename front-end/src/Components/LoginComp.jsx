@@ -37,7 +37,7 @@ function Login() {
       //check login success
       if (response.data.status) {
         //if successful, call AuthProvider login function
-        login(response.data.token, response.data.user.postcode);
+        login(response.data.token, response.data.user.postcode, response.data.user.user_id);
         setSuccess(true);
         //routes to test logging page
         navigate('/test');
