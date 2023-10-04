@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Service;
 
-class ServiceController extends Controller
+class ListController extends Controller
 {
     //sorts services by distance to postcode and returns list 
     public function sortServices(Request $request)
@@ -53,16 +53,41 @@ class ServiceController extends Controller
                 $services = Service::all();
                     
 
-                //calc distance and add to service
-                foreach ($services as &$service) {
-                    $service['distance'] = $this->calculateDistance($lat, $lng, $service['latitude'], $service['longitude']);
+                
+                $servicesWithCoordinates = [];
+                $servicesWithoutCoordinates = [];
+
+                //calcs distance. if distance can be calced, put in coord array. if distance cant, set null and put in without coord
+                foreach ($services as $service) {
+                    if (!empty($service['latitude']) && !empty($service['longitude'])) {
+                        $service['distance'] = $this->calculateDistance($lat, $lng, $service['latitude'], $service['longitude']);
+                        $servicesWithCoordinates[] = $service;
+                    } else {
+                        $service['distance'] = null;
+                        $servicesWithoutCoordinates[] = $service;
+                    }
                 }
-                $services = $services->sortBy('distance')->values();
+
+                //combine with null distance at end of the list
+                $sortedServices = [];
+
+                foreach ($servicesWithCoordinates as $service) {
+                    $sortedServices[] = $service;
+                    }
+
+                foreach ($servicesWithoutCoordinates as $service) {
+                    $sortedServices[] = $service;
+                    }
 
 
-                //separate by type
-                $healthServices = $services->where('type', 'Health')->values()->all();
-                $supportServices = $services->where('type', 'Support')->values()->all();
+                //separate by type. ->where doesnt work here.
+                foreach ($sortedServices as $service) {
+                    if ($service['type'] === 'Health') {
+                        $healthServices[] = $service;
+                    } elseif ($service['type'] === 'Support') {
+                        $supportServices[] = $service;
+                    }
+                }
 
                 //send to frontend
                 return response()->json([

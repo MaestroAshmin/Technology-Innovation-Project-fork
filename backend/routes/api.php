@@ -37,7 +37,7 @@ Route::get('/users/{user_id}', [UserController::class, 'getUserByID']);
 Route::post('/users/{user_id}', [UserController::class, 'updateUser']);
 Route::delete('users/{id}', [UserController::class, 'deleteUser']);
 // Route::get('/users', [UserController::class, 'getUsers'])->middleware('checkUserRole:1');
-Route::post('/services/sort', 'App\Http\Controllers\ServiceController@sortServices');
+Route::post('/services/sort', 'App\Http\Controllers\ListController@sortServices');
 
 
 // Route::middleware(['auth:api', 'checkUserRole:admin'])->group(function () {
