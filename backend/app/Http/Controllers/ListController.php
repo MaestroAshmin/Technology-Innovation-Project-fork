@@ -67,6 +67,10 @@ class ListController extends Controller
                         $servicesWithoutCoordinates[] = $service;
                     }
                 }
+                //sort list with coords by distance
+                usort($servicesWithCoordinates, function ($a, $b) {
+                    return $a['distance'] <=> $b['distance'];
+                });
 
                 //combine with null distance at end of the list
                 $sortedServices = [];
