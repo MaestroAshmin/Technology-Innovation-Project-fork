@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LogTestController;
 use App\Http\Controllers\FaqController;
 
+use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\AnonymousUserController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,9 +35,11 @@ Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkE
 // Route::get('/password/reset/{token}', [ResetPasswordController::class, 'reset'])->name('password.reset-form');
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
 Route::get('/users', [UserController::class, 'getUsers']);
+Route::get('/users/{user_id}', [UserController::class, 'getUserByID']);
+Route::post('/users/{user_id}', [UserController::class, 'updateUser']);
 Route::delete('users/{id}', [UserController::class, 'deleteUser']);
 // Route::get('/users', [UserController::class, 'getUsers'])->middleware('checkUserRole:1');
-Route::post('/services/sort', 'App\Http\Controllers\ServiceController@sortServices');
+Route::post('/services/sort', 'App\Http\Controllers\ListController@sortServices');
 
 
 // Route::middleware(['auth:api', 'checkUserRole:admin'])->group(function () {
@@ -53,4 +58,13 @@ Route::get('/getFaq/{id}', [FaqController::class, 'getFaq']);
 Route::post('/updateFaq/{id}', [FaqController::class, 'updateFaq']);
 Route::get('/searchFaq/{key}', [FaqController::class, 'searchFaq']);
 Route::post('/chat', [ChatController::class, 'chat']);
+Route::post('/trackAnonymousUser', [AnonymousUserController::class, 'trackAnonymousUser']);
+
+//yujia
+Route::get('/storeServices', [ServiceController::class, 'storeServices']);
+Route::get('/getServices', [ServiceController::class, 'getServices']);
+Route::post('/searchService', [ServiceController::class, 'searchService']);
+Route::delete('/deleteService/{id}', [ServiceController::class, 'deleteService']);
+Route::post('/addService', [ServiceController::class, 'addService']);
+Route::post('/updateService/{id}', [ServiceController::class, 'updateService']);
 
