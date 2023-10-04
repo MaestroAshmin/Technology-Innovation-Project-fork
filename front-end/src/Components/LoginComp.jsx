@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useAuth } from "../Context/AuthProvider";
+import React, { useState} from 'react';
+
 import axios from '../api/axios';
 import '../Css/Forms.css';
 //for routing after login https://stackoverflow.com/questions/62861269/attempted-import-error-usehistory-is-not-exported-from-react-router-dom
@@ -8,9 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const LOGIN_URL = 'http://localhost:8000/api/login';
 
 function Login() {
-  const { login } = useAuth(); 
-  const userRef = useRef();
-  const errRef = useRef();
+
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,19 +34,36 @@ function Login() {
       
       //check login success
       if (response.data.status) {
-        //if successful, call AuthProvider login function
-        login(response.data.token, response.data.user.postcode);
-        setSuccess(true);
-        //routes to test logging page
-        navigate('/test');
-      }
 
-      setEmail('');
-      setPassword('');
+        const token = response.data.token;
+        const age = response.data.user.age;
+        const gender = response.data.user.gender;
+        const nationality = response.data.user.nationality;
+        const postcode = response.data.user.postcode;
+        const name = response.data.user.name;
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password);
+        localStorage.setItem('age', age);
+        localStorage.setItem('gender', gender);
+        localStorage.setItem('nationality', nationality);
+        localStorage.setItem('postcode', postcode);
+        localStorage.setItem('name', name);
+        navigate('/');
+      }
+      
     } catch (error) {
       //err
-      console.error('Login error:', error);
-      setErrMsg('Invalid credentials. Please try again.');
+      if (!error.response){
+        setErrMsg('No server response');
+      }else if (errMsg.response?.status === 400){
+        setErrMsg('Missing user name or password')
+      }else if (errMsg.response?.status === 401){
+        setErrMsg('Unauthorized');
+      }else{
+        setErrMsg('Login Failed');
+      }
     }
   };
 
@@ -62,7 +77,7 @@ function Login() {
         <div className="layout">
           <div className="container">
             <div className="form">
-              <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'}>
+              <p className={errMsg ? 'errmsg' : 'offscreen'}>
                 {errMsg}
               </p>
               <h2>Login</h2>
@@ -81,7 +96,7 @@ function Login() {
                     }}
                     required
                     className="form-input"
-                    ref={userRef}
+                   
                   />
                 </div>
                 <div>

@@ -1,13 +1,29 @@
 /*Navbar component
 Le Vy Cao 104201234
 Last edited 14/09/2023*/
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../Context/AuthProvider'; 
+import React, { useEffect} from 'react';
+import { Link, useNavigate} from 'react-router-dom';
+
 import '../Css/Navbar.css'; // Import the CSS file
 
 function Navbar() {
-  const { user, logout } = useAuth(); 
+    let navigate = useNavigate();
+  
+    const logOut = () =>{
+      // Clear all data from local storage
+localStorage.removeItem('token');
+localStorage.removeItem('age');
+localStorage.removeItem('gender');
+localStorage.removeItem('nationality');
+localStorage.removeItem('postcode');
+localStorage.removeItem('name');
+localStorage.removeItem('password');
+localStorage.removeItem('email');
+navigate('/login');
+
+    }
+
+    const user = localStorage.getItem('token');
 
   return (
     <nav className="navbar">
@@ -41,7 +57,19 @@ function Navbar() {
         </div>
         <div className="navbar-item buttons">
           {user ? ( //show logout if user is authenticated, if not show login and reg
-            <button onClick={logout}>Logout</button> 
+          (<>
+          <Link to="/profile" className="navbar-link">
+            <img
+            width="40px"
+            height="40px"
+            src="/images/user-64.png"
+            alt="logo"
+          />
+          </Link>
+            <button onClick={logOut} className="navbar-link">Logout</button> 
+            </>
+          )
+
           ) : (
             <>
               <Link to="/register" className="navbar-link">

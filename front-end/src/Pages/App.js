@@ -8,17 +8,16 @@ import HowToUse from './HowToUse';
 import Services from './Services';
 import LogTest from './LogTest';
 import Faq from './Faq';
+import ProfilePage from './ProfilePage';
 //wraps whole app
-import { AuthProvider } from '../Context/AuthProvider';
 
 function App() {
-  return (
-    //wrap whole app with AuthProvider so all can access
-    <AuthProvider>
+  return ( 
     <Router>
       <div className="App">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/about" element={<AboutUs />} />
@@ -29,7 +28,6 @@ function App() {
         </Routes>
       </div>
     </Router>
-    </AuthProvider>
   );
 }
 
