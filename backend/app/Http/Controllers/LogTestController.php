@@ -22,6 +22,7 @@ class LogTestController extends Controller
             'test_date.date' => 'Test date is invalid',
             'risk_exposure.string' => 'Risk exposure must be a string',
             'risk_exposure.max' => 'Risk exposure must not exceed 20 characters',
+            'reason_for_test.text' => 'Reason for test must be in string format.',
         ];
 
 
@@ -31,6 +32,7 @@ class LogTestController extends Controller
             'test_result' => 'required|string|max:20',
             'test_date' => 'nullable|date',
             'risk_exposure' => 'nullable|string|max:20',
+            'reason_for_test' => 'nullable|string',
         ], $messages);
 
         // check if the validation fails
@@ -47,7 +49,8 @@ class LogTestController extends Controller
         $testResult->user_id = $req->input('user_id');
         $testResult->test_result = $req->input('test_result');
         $testResult->test_date = $req->input('test_date');
-        $testResult->risk_exposure = $req->input('risk_exposure');    
+        $testResult->risk_exposure = $req->input('risk_exposure');
+        $testResult->reason_for_test = $req->input('reason_for_test');    
 
         // save data collected to the database
         $testResult->save();
