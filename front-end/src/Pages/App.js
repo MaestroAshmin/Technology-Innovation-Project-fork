@@ -8,18 +8,10 @@ import HowToUse from './HowToUse';
 import Services from './Services';
 import LogTest from './LogTest';
 import Faq from './Faq';
-<<<<<<< HEAD
 import ProfilePage from './ProfilePage';
-//wraps whole app
-
-function App() {
-  return ( 
-=======
-
 function App() {
   return (
 
->>>>>>> origin/frontend-levy
     <Router>
       <div className="App">
         <Routes>
