@@ -40,7 +40,7 @@ function Navbar() {
 
       localStorage.removeItem('userId');
 
-      navigate('./login');
+      navigate('/login');
     }
 
     const user = localStorage.getItem('token');
