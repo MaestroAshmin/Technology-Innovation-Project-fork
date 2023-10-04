@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../Context/AuthProvider'; 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,8 +9,7 @@ function LogTest() {
   const [reasonForTest, setReasonForTest] = useState('');
   const [receivePDF, setReceivePDF] = useState('no');
   const [sendToServices, setSendToServices] = useState('no')
-
-  const { user } = useAuth(); 
+ 
 
   const navigate = useNavigate(); 
 
@@ -42,9 +40,8 @@ function LogTest() {
   //sends to server
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     const formData = {
-      user_id: user.user_id,
+      user_id: localStorage.getItem('userId'),
       test_result: testResult,
       risk_exposure: riskExposure,
       reason_for_test: reasonForTest,
@@ -80,10 +77,10 @@ function LogTest() {
 
   useEffect(() => {
     //check if the user is not authenticated and navigate to the login page
-    if (!user) {
+    if (localStorage.getItem('userId')==null) {
       navigate('/login'); 
     }
-  }, [user, navigate]);
+  }, [navigate]);
 
   //render the success message if the form is submitted successfully
   if (submitted) {
