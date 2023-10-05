@@ -112,10 +112,22 @@ class UserController extends Controller
     // Update user data
     public function updateUser(Request $request, $user_id)
     {
+        // Check if email is same as last one
+        $get_user = User::find($user_id);
         // Validate the request data
+        if($request->input('email') != $get_user['email']){ 
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|unique:users,email|email',
+                'gender' => 'required|string',
+                'age' => 'required|integer|gte:10|lte:100',
+                'nationality' => 'required|string|max:255',
+                'postcode' => 'required|integer|digits_between:1,4',
+            ]);
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|unique:users,email|email',
+            'email' => 'required|string|email',
             'gender' => 'required|string',
             'age' => 'required|integer|gte:10|lte:100',
             'nationality' => 'required|string|max:255',
@@ -135,8 +147,7 @@ class UserController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
         // Update the user data
-        dd($user->fill($request->all())->save());
-        dd($user);exit;
+        $user->fill($request->all())->save();
         return response()->JSON([
             'status' => true,
             'message' => 'Successfully updated details',
