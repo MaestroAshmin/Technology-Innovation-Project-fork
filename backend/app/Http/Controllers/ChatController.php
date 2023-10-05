@@ -13,10 +13,10 @@ class ChatController extends Controller
     {
         try {
             // Get the message from the request
-            $userMessage = $request->input('message');
+            $userMessage = $request->input('question');
 
             if (!$userMessage) {
-                return response()->json(['message' => 'Message is required'], 400);
+                return response()->json(['message' => 'Question is required'], 400);
             }
 
             // Prepare the data request

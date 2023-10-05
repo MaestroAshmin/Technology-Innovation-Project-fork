@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import axios from '../api/axios';
 
 import "../Css/Profile.css"
+
+
 
 function Profile() {
     const [user, setUser] = useState({
@@ -9,7 +12,8 @@ function Profile() {
         gender: localStorage.getItem('gender') || '',
         nationality: localStorage.getItem('nationality') || '',
         postcode: localStorage.getItem('postcode') || '',
-        password: localStorage.getItem('password'), // Add password field
+        password: localStorage.getItem('password') || '',
+        age: localStorage.getItem('age') || '',
     });
 
     // State to track whether the form is in edit mode
@@ -22,21 +26,42 @@ function Profile() {
     };
 
     // Function to handle form submission
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // TODO: Send updated user data to the server and handle the response
-        // After a successful update, you can set isEditing to false
-        // Also, update the local storage with the new user data
-        localStorage.setItem('name', user.name);
-        localStorage.setItem('email', user.email);
-        localStorage.setItem('gender', user.gender);
-        localStorage.setItem('nationality', user.nationality);
-        localStorage.setItem('postcode', user.postcode);
-        // Don't forget to update the password if it's changed
-        localStorage.setItem('password', user.password);
-
-        setIsEditing(false); // Exit edit mode
-    };
+        const user_id = localStorage.getItem('userId')
+      
+        try {
+          const response = await axios.post(`http://localhost:8000/api/users/${user_id}`, {
+            name: user.name,
+            email: user.email,
+            gender: user.gender,
+            nationality: user.nationality,
+            password: user.password,
+            postcode: user.postcode,
+            age: user.age
+          });
+      
+          console.log(response);
+          // Assuming your API responds with updated user data
+          const updatedUserData = response.data.user;
+      
+          // Update the local storage with the new user data
+          localStorage.setItem('name', updatedUserData.name);
+          localStorage.setItem('email', updatedUserData.email);
+          localStorage.setItem('gender', updatedUserData.gender);
+          localStorage.setItem('nationality', updatedUserData.nationality);
+          localStorage.setItem('postcode', updatedUserData.postcode);
+          // Don't forget to update the password if it's changed
+          localStorage.setItem('password', updatedUserData.password);
+          localStorage.setItem('age', updatedUserData.age);
+      
+          setIsEditing(false); // Exit edit mode
+        } catch (error) {
+          console.error('Error updating user data:', error);
+          // Handle errors, e.g., show an error message to the user
+        }
+      };
+      
 
     // Function to handle canceling the edit
     const handleCancelEdit = () => {
@@ -56,7 +81,7 @@ function Profile() {
         <div className="profile">
             <div className="profile-info">
                 {isEditing ? (
-                    <form onSubmit={handleSubmit}>
+                    <form >
                         <div className="inputField">
                             Name:
                             <input
@@ -81,6 +106,15 @@ function Profile() {
                                 type="text"
                                 name="gender"
                                 value={user.gender}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div className="inputField">
+                            Age:
+                            <input
+                                type="text"
+                                name="age"
+                                value={user.age}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -113,7 +147,7 @@ function Profile() {
                         </div>
 
                         {/* Add more fields for editing */}
-                        <button type="submit">Save</button>
+                        <button type="submit" onClick={handleSubmit}>Save</button>
                         <button type="button" onClick={handleCancelEdit}>Cancel</button>
                     </form>
                 ) : (
@@ -122,6 +156,7 @@ function Profile() {
                         <p>Name: {user.name}</p>
                         <p>Email: {user.email}</p>
                         <p>Gender: {user.gender}</p>
+                        <p>Age: {user.age}</p>
                         <p>Postcode: {user.postcode}</p>
                         <p>Nationality: {user.nationality}</p>
                         {/* Display other user information */}
