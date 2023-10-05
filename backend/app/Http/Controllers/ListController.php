@@ -13,12 +13,22 @@ class ListController extends Controller
     //sorts services by distance to postcode and returns list 
     public function sortServices(Request $request)
     {
-
+        $healthServices = [];
+        $supportServices = [];
+        //get services list from db
+        $services = Service::all();
+        
+        if ($services->isEmpty()) {
+            // If the database is empty, return empty arrays
+            return response()->json([
+                'healthServices' => $healthServices,
+                'supportServices' => $supportServices,
+            ]);
+        }
 
     //if not logged in/no postcode, get generic list
     if ($request->input('postcode') == null){
          //get services list from db
-         $services = Service::all();
 
          //separate by type
          $healthServices = $services->where('type', 'Health')->values()->all();
