@@ -71,9 +71,6 @@ function LogTest() {
 
     try {
       console.log('formData:', formData);
-
- 
-
       const response = await axios.post('http://127.0.0.1:8000/api/logTest', JSON.stringify(formData), 
       {headers: {
         'Content-Type': 'application/json',

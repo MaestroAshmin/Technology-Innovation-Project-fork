@@ -2,9 +2,8 @@
 Le Vy Cao 104201234
 Last edited 15/09/2023*/
 .faq {
-    margin-top: 5em; /* Adjust the top margin */
+    margin-top: 6em; /* Adjust the top margin */
     padding: 1em;
-    height: 85vh;
     overflow-y: auto; /* Use 'auto' for vertical scrolling only */
     background: #f9f9f9; /* Background color */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */

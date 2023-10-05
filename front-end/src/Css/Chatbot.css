@@ -46,6 +46,7 @@ Last edited 15/09/2023*/
     background-color: white;
     color: var(--primaryBackgroundColor);
     font-style: italic;
+    border: 1px solid black;
   }
 
   .chatbot .user{
