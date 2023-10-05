@@ -19,7 +19,7 @@ function ServicesPage() {
   //send postcode to servicecontroller
   useEffect(() => {
     const url = 'http://localhost:8000/api/services/sort';
-    const userPostcode = localStorage.getItem('userPostcode');
+    const userPostcode = localStorage.getItem('postcode');
 
     axios
     //get sorted services from response

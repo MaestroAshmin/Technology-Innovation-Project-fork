@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\TestResult;
+use Illuminate\Support\Facades\Date; 
 
 class LogTestController extends Controller
 {
@@ -22,6 +23,8 @@ class LogTestController extends Controller
             'test_date.date' => 'Test date is invalid',
             'risk_exposure.string' => 'Risk exposure must be a string',
             'risk_exposure.max' => 'Risk exposure must not exceed 20 characters',
+            'reason_for_test.string' => 'Reason for test must be a string',
+            'reason_for_test.max' => 'Reason for test must not exceed 255 characters',
         ];
 
 
@@ -29,8 +32,8 @@ class LogTestController extends Controller
          $validator = Validator::make($req->all(), [
             'user_id' => 'required|integer|exists:users,user_id',
             'test_result' => 'required|string|max:20',
-            'test_date' => 'nullable|date',
             'risk_exposure' => 'nullable|string|max:20',
+            'reason_for_test' => 'nullable|string|max:255',
         ], $messages);
 
         // check if the validation fails
@@ -47,7 +50,10 @@ class LogTestController extends Controller
         $testResult->user_id = $req->input('user_id');
         $testResult->test_result = $req->input('test_result');
         $testResult->test_date = $req->input('test_date');
-        $testResult->risk_exposure = $req->input('risk_exposure');    
+        $testResult->risk_exposure = $req->input('risk_exposure');
+        $testDate = Date::now()->format('Y-m-d');         //generate date in yy-mm-dd format
+        $testResult->test_date = $testDate;  
+        $testResult->reason_for_test = $req->input('reason_for_test');   
 
         // save data collected to the database
         $testResult->save();

@@ -1,0 +1,51 @@
+/* Update the profile card styling */
+.profile {
+    margin: auto;
+    margin-top: 10em;
+    padding: 1em;
+    width: 80%;
+    background-color: #ffffff; /* Background color for the card */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for a subtle depth effect */
+  }
+  
+  /* Style the profile information container */
+  .profile-info {
+    text-align: center;
+    border: 1px solid #ddd; /* Add a border */
+    padding: 2em;
+    margin-top: 2em;
+    border-radius: 5px; /* Rounded corners for the inner container */
+  }
+  
+  /* Style the buttons */
+  .profile button {
+    background-color: var(--primaryBackgroundColor);
+    color: var(--textColor);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px; /* Rounded corners for buttons */
+  }
+  
+  .profile button:hover {
+    background-color: #ff6600;
+  }
+  
+  /* Style the input fields */
+  .profile .inputField {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2em;
+  }
+  
+  .inputField input {
+    width: 80%;
+    padding: 1em;
+    outline: none;
+    border: 1px solid #ddd; /* Add a border to input fields */
+    border-radius: 5px; /* Rounded corners for input fields */
+  }
+  
