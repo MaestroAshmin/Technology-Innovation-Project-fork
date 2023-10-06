@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from '../api/axios';
+import axios from 'axios';
 
 import "../Css/Profile.css"
 
@@ -73,7 +73,8 @@ function Profile() {
             gender: localStorage.getItem('gender'),
             nationality: localStorage.getItem('nationality'),
             postcode: localStorage.getItem('postcode'),
-            password: localStorage.getItem('password'), // Reset password field
+            password: localStorage.getItem('password'),
+            age: localStorage.getItem('age'),
         });
     };
 

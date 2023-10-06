@@ -13,6 +13,9 @@ use App\Http\Controllers\FaqController;
 
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\AnonymousUserController;
+  
+use App\Http\Controllers\PDFController;
+
 
 /*
 |--------------------------------------------------------------------------
