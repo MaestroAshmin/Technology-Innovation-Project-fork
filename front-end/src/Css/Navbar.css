@@ -6,7 +6,7 @@ Last edited 14/09/2023*/
   color: var(--textColor);
   padding: 1em 0; /* Adjust padding for better spacing */
   width: 100%;
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   right: 0;
