@@ -1,122 +1,123 @@
-/*CSS for form elements*/
+/* CSS for form elements */
+.layout {
+  height: 100vh;
+}
+
 .container {
-  background-color: var(--primaryBackgroundColor);
-  color: var(--primaryBackgroundColor);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 50px auto 0;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  margin-top: 6em;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 30%;
   text-align: center;
+  gap: 2em;
   transition: transform 0.2s ease;
+  background-color: #f5f5f5;
+  color: var(--primaryBackgroundColor);
 }
 
-.form-container {
-  margin-top: 4em; 
-  margin-bottom: 4em;
-  padding: 2em;
+h2 {
+  margin-bottom: 0.5em;
+}
+p{
+  margin-bottom: 1em;
+  font-style: italic;
+  }
+.signInImage {
+  flex: 0.5;
+  height: 100%;
 }
 
-.errmsg {
-  color: red; 
-  font-size: 16px; 
-
-}
-
-
-
-
-.offscreen {
-  display: none; 
+.signInImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .form {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  transition: transform 0.2s ease;
-  margin: 0 auto; 
+  padding: 1em;
+  flex: 0.5;
+}
+
+
+.field {
   display: flex;
-  flex-direction: column; 
+  flex-direction: row;
+  justify-content: space-between; /* Put labels on the left */
   align-items: center;
+  margin: 1em;
 }
 
-.reg-result{
-  margin-top:4em; 
-  padding: 2em;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  transition: transform 0.2s ease;
-  margin: 0 auto; 
-  display: flex;
-  flex-direction: column; 
-  align-items: center;
-}
-
-.form h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: var(--primaryBackgroundColor);
-}
-
-.form-field-optional {
-  font-style: italic;
-}
-
-.form label {
-  display: block;
-  margin-bottom: 10px;
+.field label {
   font-weight: bold;
+  margin-right: 1em; /* Add space between label and input */
 }
 
-.form input {
-  width: 90%;
-  padding: 10px;
-  margin-bottom: 10px; 
+.field input {
+/* Expand input to fill available space */
+  padding: 1em;
+  min-width: 400px;
+  width: 80%;
+  min-width: 500px;
+  margin: 0.5em 0;
   border: 1px solid #ccc;
-  border-radius: 3px;
-  align-items: center;
+  border-radius: 5px;
+  font-size: 16px;
+  
 }
-
-
-.login-button {
-  background-color: var(--primaryBackgroundColor);
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 3px;
-  cursor: pointer;
-  margin: 10px
-}
-
-.login-button:hover {
-  background-color: #333;
-}
-
-.link {
-  color: var(--primaryBackgroundColor);
-  text-decoration: underline;
-}
-
-.form select {
-  width: 100%; 
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  background-position: center;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.form select:focus {
+.field input:focus {
   outline: none;
-  border-color: #007bff; 
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+  /* Style the buttons (adjust styles as needed) */
+ .container button {
+    background-color: #ff6600; /* Customize the button background color */
+    color: #fff; /* Button text color */
+    border: none;
+    padding: 0.625em 1.25em; /* Adjust padding using em units */
+    font-size: 1em; /* Adjust the font size using em units */
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease; /* Add a smooth transition effect */
+    margin-top: 1em;
+    margin-bottom: 3em; /* Adjust margin using em units */
+  }
+  
+.container button:hover {
+    background-color: #ff3300; /* Change the background color on hover */
+  }
+  .link {
+    color: #922a6f; /* Link text color */
+    text-decoration: none; /* Remove the default underline */
+    font-weight: bold; /* Make the text bold */
+    transition: color 0.3s; /* Add a smooth color transition on hover */
+  }
+  
+  .link:hover {
+    color: #ff3300; /* Change the color on hover */
+  }
+  .errmsg{
+    color: red;
+  }
+  .offscreen{
+    display: none;
+  }
+
+
+
+  .form-group{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: space-between;
+    margin: 1.5em;
+  }
+  .form-group select,   .form-group input {
+    height: 50px;
+    padding: 5px; 
+    box-sizing: border-box; /* Ensure padding is included in the element's total width/height */
 }

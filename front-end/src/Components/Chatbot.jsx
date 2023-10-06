@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../Css/Chatbot.css'; // Import your CSS file for styling
 
-import axios from '../api/axios';
+import axios from 'axios';
 
 function Chatbot() {
   const [messages, setMessages] = useState([]); // State to store chat messages

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\TestResult;
+use App\Models\User;
 use Illuminate\Support\Facades\Date; 
+use Illuminate\Support\Facades\Storage;
+use PDF;
 
 class LogTestController extends Controller
 {
@@ -57,7 +60,23 @@ class LogTestController extends Controller
 
         // save data collected to the database
         $testResult->save();
+        $user = User::find($testResult->user_id); 
+       // Generate a PDF
+        $pdf = PDF::loadView('pdf.test_result', ['testResult' => $testResult, 'user' => $user]);
 
-        return $req->input();
+        // Customize PDF file name
+        $pdfFileName = 'test_result_' . $testResult->user_id . '.pdf';
+
+       
+
+        // Save the PDF to the public storage directory
+        $pdf->save(storage_path('app/public/pdf/' . $pdfFileName));
+
+        // Return a response with a JSON message that includes the PDF download URL
+        return [
+            'status' => true,
+            'message' => 'Test result logged successfully',
+            'pdf_url' => url('storage/pdf/' . $pdfFileName),
+        ];
     }
 }
