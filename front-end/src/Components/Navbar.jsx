@@ -39,6 +39,7 @@ function Navbar() {
       localStorage.removeItem('email');
 
       localStorage.removeItem('userId');
+      localStorage.removeItem('username');
 
       navigate('/login');
     }
