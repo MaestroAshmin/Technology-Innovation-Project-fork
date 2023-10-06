@@ -1,16 +1,19 @@
 /*First registration page
 Justin Li 104138316
-Last edited 14/09/2023*/
+Last edited 6/10/2023*/
 import React from 'react';
 import '../Css/Forms.css';
 
 
-function RegLoginInfo({ formData, handleInputChange, nextStep }) {
+function RegLoginInfo({ formData, handleInputChange, nextStep, validationErrors }) {
   return (
     <div className="form registration-form">
       <h2>Account Information</h2>
       <form onSubmit={nextStep}>
         <div className="form-group">
+          {validationErrors.firstName && (
+            <p className="error-message">{validationErrors.firstName}</p>
+          )}
           <label htmlFor="firstName">First Name:</label>
           <input
             type="text"
@@ -23,6 +26,9 @@ function RegLoginInfo({ formData, handleInputChange, nextStep }) {
           />
         </div>
         <div className="form-group">
+          {validationErrors.lastName && (
+            <p className="error-message">{validationErrors.lastName}</p>
+          )}
           <label htmlFor="lastName">Last Name:</label>
           <input
             type="text"
@@ -35,6 +41,9 @@ function RegLoginInfo({ formData, handleInputChange, nextStep }) {
           />
         </div>
         <div className="form-group">
+        {validationErrors.email && (
+            <p className="error-message">{validationErrors.email}</p>
+          )}
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -47,6 +56,9 @@ function RegLoginInfo({ formData, handleInputChange, nextStep }) {
           />
         </div>
         <div className="form-group">
+          {validationErrors.password && (
+            <p className="error-message">{validationErrors.password}</p>
+          )}
           <label htmlFor="password">Password:</label>
           <input
             type="password"
@@ -59,6 +71,9 @@ function RegLoginInfo({ formData, handleInputChange, nextStep }) {
           />
         </div>
         <div className="form-group">
+        {validationErrors.confirmPassword && (
+            <p className="error-message">{validationErrors.confirmPassword}</p>
+          )}
           <label htmlFor="confirmPassword">Confirm Password:</label>
           <input
             type="password"

@@ -1,7 +1,7 @@
 <?php
 /*service list sorter
 Justin Li 104138316
-Last edited 2/10/2023*/
+Last edited 6/10/2023*/
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -124,7 +124,7 @@ class ListController extends Controller
         $dLng = deg2rad($lng2 - $lng1);
         $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLng / 2) * sin($dLng / 2);
         $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-        $distance = $radius * $c;
+        $distance = round($radius * $c,2);
         return $distance;
     }
 }

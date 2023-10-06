@@ -1,3 +1,6 @@
+/*test logging comp
+Justin Li 104138316
+Last edited 6/10/2023*/
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -41,9 +44,14 @@ function LogTest() {
     setRiskExposure(e.target.value);
   };
 
- 
-
+  const [reasonForTestError, setReasonForTestError] = useState('');
+  //reason for test validation and change
   const handleReasonForTestChange = (e) => {
+    if (e.target.value.length > 255) {
+      setReasonForTestError('Reason for Testing must be 255 characters or less.');
+    } else {
+      setReasonForTestError('');
+    }
     setReasonForTest(e.target.value);
   };
 
@@ -58,6 +66,10 @@ function LogTest() {
   //sends to server
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //dont submit if reasonfortest too long
+    if (reasonForTestError) {
+      return; 
+    }
     const formData = {
       user_id: localStorage.getItem('userId'),
       test_result: testResult,
@@ -173,6 +185,9 @@ function LogTest() {
 </select>
 </div>
 <div className="form-group">
+{reasonForTestError && (
+                <p className="error-message">{reasonForTestError}</p>
+              )}
 <label htmlFor="reasonForTest">Reason for Testing</label>
 <textarea
                 id="reasonForTest"

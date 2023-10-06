@@ -1,3 +1,6 @@
+/*login comp
+Justin Li 104138316
+Last edited 6/10/2023*/
 import React, { useState} from 'react';
 
  
@@ -17,11 +20,6 @@ const url = 'http://localhost:8000/api/login';
  
 
 function Login() {
-
- 
-
- 
-
   const [email, setEmail] = useState('');
 
   const [password, setPassword] = useState('');
@@ -34,13 +32,32 @@ function Login() {
 
   const navigate = useNavigate();
 
- 
+  //validation consts
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const validatePassword = (password) => {
+    return password.length >= 8;
+  };
 
   //for submit
 
   const handleSubmit = async (e) => {
 
     e.preventDefault();
+
+    if (!validateEmail(email)) {
+      setErrMsg('Invalid email format');
+      return;
+    } else(
+      setErrMsg('')
+    )
+
+    if (!validatePassword(password)) {
+      setErrMsg('Password must be at least 8 characters long');
+      return;
+    }
 
     try {
 

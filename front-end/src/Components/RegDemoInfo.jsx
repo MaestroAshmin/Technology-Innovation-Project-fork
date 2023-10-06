@@ -1,15 +1,18 @@
 /*Second registration page
 Justin Li 104138316
-Last edited 14/09/2023*/
+Last edited 6/10/2023*/
 
 import React from 'react';
 
-function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep, nextStep}) {
+function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep, nextStep, validationErrors}) {
   return (
     <div className="form registration-form">
       <h2>Demographic Information</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
+        {validationErrors.age && (
+            <p className="error-message">{validationErrors.age}</p>
+          )}
           <label htmlFor="age" className="form-field-optional">
             Age*
           </label>
@@ -23,6 +26,9 @@ function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep, next
           />
         </div>
         <div className="form-group">
+        {validationErrors.gender && (
+            <p className="error-message">{validationErrors.gender}</p>
+          )}
           <label htmlFor="gender" className="form-field-optional">
             Gender*
           </label>
@@ -40,6 +46,9 @@ function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep, next
           </select>
         </div>
         <div className="form-group">
+        {validationErrors.nationality && (
+            <p className="error-message">{validationErrors.nationality}</p>
+          )}
           <label htmlFor="nationality" className="form-field-optional">
             Nationality*
           </label>
@@ -53,6 +62,9 @@ function RegDemoInfo({ formData, handleInputChange, handleSubmit, prevStep, next
           />
         </div>
         <div className="form-group">
+        {validationErrors.postcode && (
+            <p className="error-message">{validationErrors.postcode}</p>
+          )}
           <label htmlFor="postcode" className="form-field-optional">
             Postcode*
           </label>
