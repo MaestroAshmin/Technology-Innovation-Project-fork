@@ -14,6 +14,7 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\ReportUserController;
 use App\Http\Controllers\AnonymousUserController;
+use App\Http\Controllers\TestResultController;
   
 use App\Http\Controllers\PDFController;
 
@@ -63,6 +64,7 @@ Route::post('/updateFaq/{id}', [FaqController::class, 'updateFaq']);
 Route::get('/searchFaq/{key}', [FaqController::class, 'searchFaq']);
 Route::post('/chat', [ChatController::class, 'chat']);
 Route::post('/trackAnonymousUser', [AnonymousUserController::class, 'trackAnonymousUser']);
+Route::get('/positiveCasesByPostcodes', [TestResultController::class, 'getPositiveCasesByPostcodes']);
 
 //yujia
 Route::get('/storeServices', [ServiceController::class, 'storeServices']);
