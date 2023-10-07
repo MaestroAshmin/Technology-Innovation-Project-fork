@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -188,5 +189,6 @@ return [
     'curl' => [
         CURLOPT_CAINFO => storage_path('cacert.pem'),
     ],
+    'PDF' => Barryvdh\DomPDF\Facade::class,
 
 ];

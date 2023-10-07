@@ -35,7 +35,6 @@ function Login() {
   };
 
   //for submit
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -51,7 +50,6 @@ function Login() {
 
     try {
       //post form data
-
       const response = await axios.post(
         url,
 
@@ -61,27 +59,19 @@ function Login() {
           headers: { "Content-Type": "application/json" },
 
           //needs this
-
           withCredentials: true,
         }
       );
 
       //check login success
-
       if (response.data.status) {
 
         const token = response.data.token;
-
         const age = response.data.user.age;
-
         const gender = response.data.user.gender;
-
         const nationality = response.data.user.nationality;
-
         const postcode = response.data.user.postcode;
-
         const name = response.data.user.name;
-
         const user_id = response.data.user.user_id;
 
         const email = response.data.user.email;
@@ -122,7 +112,6 @@ function Login() {
       }
     }
   };
-
   return (
     <>
       {success ? (
@@ -130,10 +119,16 @@ function Login() {
       ) : (
         <div className="layout">
           <div className="container">
+          <div className="signInImage">
+            <img src="https://octopod.co.in/slink/images/login.svg" alt="" />
+          </div>
             <div className="form">
-              <p className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
-
-              <h2>Login</h2>
+            <h2>Welcome to the Website</h2>
+            
+            <p>Login to manage your account</p>
+            <p className={errMsg ? 'errmsg' : 'offscreen'}>
+              {errMsg}
+            </p>
 
               <form onSubmit={handleSubmit}>
                 <div>
@@ -184,8 +179,10 @@ function Login() {
               </p>
             </div>
           </div>
+          
         </div>
       )}
+      
     </>
   );
 }
