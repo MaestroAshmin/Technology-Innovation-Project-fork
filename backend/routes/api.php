@@ -13,6 +13,7 @@ use App\Http\Controllers\FaqController;
 
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\ReportUserController;
+use App\Http\Controllers\Api\WebsiteVisitsController;
 use App\Http\Controllers\AnonymousUserController;
 use App\Http\Controllers\TestResultController;
   
@@ -75,4 +76,5 @@ Route::post('/addService', [ServiceController::class, 'addService']);
 Route::post('/updateService/{id}', [ServiceController::class, 'updateService']);
 Route::get('/usersLoggedInLastNDays/{days}', [ReportUserController::class, 'usersLoggedInLastNDays']);
 Route::get('/usersRegisteredPerPeriod/{period}', [ReportUserController::class, 'usersRegisteredPerPeriod']);
+Route::get('/websiteVisitsInLastNDays/{days}', [WebsiteVisitsController::class, 'getWebsiteVisits']);
 
