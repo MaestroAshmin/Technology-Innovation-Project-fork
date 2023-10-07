@@ -52,9 +52,9 @@ class LogTestController extends Controller
         //create a new testResult
         $testResult = new TestResult;
         $testResult->user_id = $req->input('user_id');
-        $userKey = Key::where('user_id', $req->input('user_id'))->first();
-        $key = $userKey->key;
-        $iv = $userKey->iv;
+        $usercrypt = Key::where('user_id', $req->input('user_id'))->first();
+        $key = $usercrypt->encryption_key;
+        $iv = $usercrypt->iv;
         $testResult->test_result =openssl_encrypt($req->input('test_result'), 'aes-256-cbc', $key, 0, $iv);
         $testResult->test_date = $req->input('test_date');
         $testResult->risk_exposure =openssl_encrypt($req->input('risk_exposure'), 'aes-256-cbc', $key, 0, $iv);
@@ -62,25 +62,39 @@ class LogTestController extends Controller
         $testResult->test_date = $testDate;  
         $testResult->reason_for_test = openssl_encrypt($req->input('reason_for_test'), 'aes-256-cbc', $key, 0, $iv);   
 
+
         //save data collected to the database
         $testResult->save();
-        $user = User::find($testResult->user_id); 
-       // Generate a PDF
-        $pdf = PDF::loadView('pdf.test_result', ['testResult' => $testResult, 'user' => $user]);
 
-        // Customize PDF file name
+        //decrypt from db
+        $user = User::find($testResult->user_id); 
+        //get latest entry
+        $result = TestResult::where('user_id', $testResult->user_id)
+    ->orderBy('test_date', 'desc')
+    ->orderBy('test_result_id', 'desc')
+    ->first();
+
+        $user->decryptFields();
+        $result->decryptTestFields();
+        
+        
+        //generate a PDF
+        $pdf = PDF::loadView('pdf.test_result', ['testResult' => $result, 'user' => $user]);
+
+
+        //customize PDF file name
         $pdfFileName = 'test_result_' . $testResult->user_id . '.pdf';
 
        
 
-        // Save the PDF to the public storage directory
+        //save the PDF to the public storage directory
         $pdf->save(storage_path('app/public/pdf/' . $pdfFileName));
 
-        // Return a response with a JSON message that includes the PDF download URL
+        //return a response with a JSON message that includes the PDF download URL
         return [
             'status' => true,
             'message' => 'Test result logged successfully',
-            'pdf_url' => url('storage/pdf/' . $pdfFileName),
+            'pdf_url' => url('storage/app/public/pdf/' . $pdfFileName),
         ];
     }
 }

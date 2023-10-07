@@ -17,7 +17,7 @@ class TestResult extends Model
 
     //fields to be encrypted/decrypted
     protected $encryptedFields = ['test_result', 'risk_exposure', 'reason_for_test'];
-    public function decryptFields()
+    public function decryptTestFields()
     {
         foreach ($this->encryptedFields as $field) {
             if (!empty($this->$field)) {
@@ -29,7 +29,7 @@ class TestResult extends Model
         }
     }
 
-    public function encryptFields()
+    public function encryptTestFields()
     {
         foreach ($this->encryptedFields as $field) {
             if (!empty($this->$field)) {
