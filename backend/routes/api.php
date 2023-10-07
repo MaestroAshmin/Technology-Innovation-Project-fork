@@ -12,6 +12,7 @@ use App\Http\Controllers\LogTestController;
 use App\Http\Controllers\FaqController;
 
 use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\ReportUserController;
 use App\Http\Controllers\AnonymousUserController;
   
 use App\Http\Controllers\PDFController;
@@ -70,4 +71,6 @@ Route::post('/searchService', [ServiceController::class, 'searchService']);
 Route::delete('/deleteService/{id}', [ServiceController::class, 'deleteService']);
 Route::post('/addService', [ServiceController::class, 'addService']);
 Route::post('/updateService/{id}', [ServiceController::class, 'updateService']);
+Route::get('/usersLoggedInLastNDays/{days}', [ReportUserController::class, 'usersLoggedInLastNDays']);
+Route::get('/usersRegisteredPerPeriod/{period}', [ReportUserController::class, 'usersRegisteredPerPeriod']);
 
