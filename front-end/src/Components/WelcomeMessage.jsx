@@ -8,9 +8,9 @@ import { useEffect, useState } from "react"
 import "../Css/WelcomeMessage.css";
 
 function WelcomeMessage() {
-    const [message, setMessage] = useState('');
-    console.warn(message);
-    useEffect(() => {
+    const [message, setMessage] = useState('');   
+
+    useEffect(() => {     
         axios.get('https://api.ipify.org?format=json') // get ip address from website api.ipity.org in json
             .then(response => {
                 // send the returned ip address to the backend
@@ -30,7 +30,7 @@ function WelcomeMessage() {
                 // Default message in case of any error
                 setMessage('Welcome to HIV Support Community'); 
             });
-    })
+    }, [])
 
     return (
         <div className="welcome-message"> {message} </div>
