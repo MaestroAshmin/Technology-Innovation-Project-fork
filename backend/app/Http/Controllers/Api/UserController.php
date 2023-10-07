@@ -26,7 +26,7 @@ class UserController extends Controller
             'postcode' => 'required|integer|digits_between:1,4', // Updated to allow for 4 digits
         ]);
 
-        // Check if validation fails
+        //check if validation fails
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
@@ -35,11 +35,11 @@ class UserController extends Controller
             ], 422); // HTTP status code 422 for validation errors
         }
 
-         // Generate a new random salt and IV for encryption
+         //generate salt and iv for encryption
          $salt = random_bytes(16);
          $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
 
-     // Derive a new encryption key using the new salt
+        //gen key
          $key = hash_pbkdf2('sha256', $request->input('password'), $salt, 10000, 32, true);
 
         $user = User::create([
@@ -54,7 +54,7 @@ class UserController extends Controller
             'role' => 0, // role is 0 by default for user registration indicating a normal user
             'last_login' => now(),
         ]);
-        
+        //create key table row with user id key and iv
         $usercrypt = Key::create([
             'user_id' => $user -> user_id,
             'encryption_key' => $key,
@@ -68,13 +68,13 @@ class UserController extends Controller
     }
     public function login(Request $request)
     {
-        // Validate the request data
+        //validate the request data
         $validator = Validator::make($request->all(), [
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // Check if validation fails
+        //check if validation fails
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
@@ -83,30 +83,36 @@ class UserController extends Controller
             ], 422); // HTTP status code 422 for validation errors
         }
 
+        //get user from db using id
         $user = User::where('username', $request->input('username'))->first();
+        //does user exist
         if (!$user) {
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid Username',
             ], 401); // HTTP status code 401 for unauthorized access
         }
+        //get key from db using id
         $usercrypt = Key::where('user_id', $user->user_id)->first();
+        //does user exist in key table
         if (!$usercrypt) {
             return response()->json([
                 'status' => false,
                 'message' => 'User encryption key not found',
             ], 401); // HTTP status code 401 for unauthorized access
         }
+        //decrypt
         $key = $usercrypt->encryption_key;
         $iv = $usercrypt->iv;
         $decryptedPassword = openssl_decrypt($user->password, 'aes-256-cbc', $key, 0, $iv);
 
 
 
-        // Attempt to log in the user
+        // Attempt to log in the user with decrypted password
         if ($decryptedPassword === $request->input('password')) {
             // Update the last login time for the user
             $user->update(['last_login' => now()]);
+            //decrypt user fields
             $user->decryptFields();
             // Generate Login token for the user
             $token = $user->createToken('LOGIN Token')->plainTextToken;
@@ -127,7 +133,6 @@ class UserController extends Controller
     // Get Users
     public function getUsers()
     {
-        // Assuming you have a 'role' column in your users table
         $users = User::where('role', 0)->get();
         $user->decryptFields();
         return response()->json(['users' => $users]);
@@ -146,21 +151,21 @@ class UserController extends Controller
     }
     public function updateUser(Request $request, $user_id)
 {
-    // Retrieve the user's encrypted data from the database using user ID
+    //retrieve the user's encrypted data from the database using user id
     $user = User::find($user_id);
 
-    // Check if the user exists
+    //check if the user exists
     if (!$user) {
         return response()->json(['message' => 'User not found'], 404);
     }
 
-    // Decrypt the existing data
+    //decrypt 
     $user->decryptFields();
     $decryptedEmail = $user->email;
     $requestEmail = $request->input('email');
 
 
-    // Compare the decrypted email with the email provided in the request
+    //compare the decrypted email with the email provided in the request
     if ($user->email !== $request->input('email')) {
         return response()->json([
             'message' => 'Email mismatch',
@@ -169,7 +174,7 @@ class UserController extends Controller
         ], 422);
     }
 
-    // Validate the request data and update the user's data
+    //validate the request data and update the user's data
     $validator = Validator::make($request->all(), [
         'name' => 'required|string|max:255',
         'gender' => 'required|string',
@@ -178,7 +183,7 @@ class UserController extends Controller
         'postcode' => 'required|integer|digits_between:1,4',
     ]);
 
-    // Check if validation fails
+    //check if validation fails
     if ($validator->fails()) {
         return response()->json([
             'status' => false,
@@ -187,16 +192,19 @@ class UserController extends Controller
         ], 422);
     }
 
-    
-    $user->fill($request->all()); // Fill the attributes with new data
+
+    //respond, update user info and save
+    $user->fill($request->all()); 
+    //save response with unencrypted data
     $response = response()->json([
         'status' => true,
         'message' => 'Successfully updated details',
         'user' => $user,
         'token' => $user->createToken('EDIT DETAILS TOKEN')->plainTextToken
     ], 200);
-    $user->encryptFields(); // Encrypt the fields
-    $user->save(); // Save the model to the database
+    //encrypt before saving
+    $user->encryptFields();
+    $user->save(); 
 
   
 

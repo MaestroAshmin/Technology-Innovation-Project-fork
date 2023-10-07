@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\TestResult;
+use App\Models\Key;
 use Illuminate\Support\Facades\Date; 
 
 class LogTestController extends Controller
@@ -45,17 +46,20 @@ class LogTestController extends Controller
             ], 400);
         }      
 
-        // Create a new testResult
+        //create a new testResult
         $testResult = new TestResult;
         $testResult->user_id = $req->input('user_id');
-        $testResult->test_result = $req->input('test_result');
+        $userKey = Key::where('user_id', $req->input('user_id'))->first();
+        $key = $userKey->key;
+        $iv = $userKey->iv;
+        $testResult->test_result =openssl_encrypt($req->input('test_result'), 'aes-256-cbc', $key, 0, $iv);
         $testResult->test_date = $req->input('test_date');
-        $testResult->risk_exposure = $req->input('risk_exposure');
+        $testResult->risk_exposure =openssl_encrypt($req->input('risk_exposure'), 'aes-256-cbc', $key, 0, $iv);
         $testDate = Date::now()->format('Y-m-d');         //generate date in yy-mm-dd format
         $testResult->test_date = $testDate;  
-        $testResult->reason_for_test = $req->input('reason_for_test');   
+        $testResult->reason_for_test = openssl_encrypt($req->input('reason_for_test'), 'aes-256-cbc', $key, 0, $iv);   
 
-        // save data collected to the database
+        //save data collected to the database
         $testResult->save();
 
         return $req->input();
