@@ -3,7 +3,7 @@ Justin Li 104138316
 Last edited 6/10/2023*/
 import React, { useState } from "react";
 
-import axios from "../api/axios";
+import axios from "axios";
 
 import "../Css/Forms.css";
 
