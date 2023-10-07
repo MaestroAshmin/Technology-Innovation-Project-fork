@@ -94,7 +94,7 @@ class LogTestController extends Controller
         return [
             'status' => true,
             'message' => 'Test result logged successfully',
-            'pdf_url' => url('storage/app/public/pdf/' . $pdfFileName),
+            'pdf_url' => url('storage/pdf/' . $pdfFileName),
         ];
     }
 }

@@ -27,7 +27,7 @@ function Login() {
   //validation consts
   const validateUsername = (username) => {
     //return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    return username.length >0;
+    return username.length > 0;
   };
 
   const validatePassword = (password) => {
@@ -65,7 +65,6 @@ function Login() {
 
       //check login success
       if (response.data.status) {
-
         const token = response.data.token;
         const age = response.data.user.age;
         const gender = response.data.user.gender;
@@ -119,19 +118,17 @@ function Login() {
       ) : (
         <div className="layout">
           <div className="container">
-          <div className="signInImage">
-            <img src="https://octopod.co.in/slink/images/login.svg" alt="" />
-          </div>
+            <div className="signInImage">
+              <img src="https://octopod.co.in/slink/images/login.svg" alt="" />
+            </div>
             <div className="form">
-            <h2>Welcome to the Website</h2>
-            
-            <p>Login to manage your account</p>
-            <p className={errMsg ? 'errmsg' : 'offscreen'}>
-              {errMsg}
-            </p>
+              <h2>Welcome to the Website</h2>
+
+              <p>Login to manage your account</p>
+              <p className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
 
               <form onSubmit={handleSubmit}>
-                <div>
+                <div className="field">
                   <label htmlFor="username" className="form-label">
                     Username
                   </label>
@@ -149,7 +146,7 @@ function Login() {
                   />
                 </div>
 
-                <div>
+                <div className="field">
                   <label htmlFor="password" className="form-label">
                     Password
                   </label>
@@ -179,10 +176,8 @@ function Login() {
               </p>
             </div>
           </div>
-          
         </div>
       )}
-      
     </>
   );
 }
