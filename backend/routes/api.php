@@ -12,7 +12,10 @@ use App\Http\Controllers\LogTestController;
 use App\Http\Controllers\FaqController;
 
 use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\ReportUserController;
+use App\Http\Controllers\Api\WebsiteVisitsController;
 use App\Http\Controllers\AnonymousUserController;
+use App\Http\Controllers\TestResultController;
   
 use App\Http\Controllers\PDFController;
 
@@ -62,6 +65,7 @@ Route::post('/updateFaq/{id}', [FaqController::class, 'updateFaq']);
 Route::get('/searchFaq/{key}', [FaqController::class, 'searchFaq']);
 Route::post('/chat', [ChatController::class, 'chat']);
 Route::post('/trackAnonymousUser', [AnonymousUserController::class, 'trackAnonymousUser']);
+Route::get('/positiveCasesByPostcodes', [TestResultController::class, 'getPositiveCasesByPostcodes']);
 
 //yujia
 Route::get('/storeServices', [ServiceController::class, 'storeServices']);
@@ -70,4 +74,7 @@ Route::post('/searchService', [ServiceController::class, 'searchService']);
 Route::delete('/deleteService/{id}', [ServiceController::class, 'deleteService']);
 Route::post('/addService', [ServiceController::class, 'addService']);
 Route::post('/updateService/{id}', [ServiceController::class, 'updateService']);
+Route::get('/usersLoggedInLastNDays/{days}', [ReportUserController::class, 'usersLoggedInLastNDays']);
+Route::get('/usersRegisteredPerPeriod/{period}', [ReportUserController::class, 'usersRegisteredPerPeriod']);
+Route::get('/websiteVisitsInLastNDays/{days}', [WebsiteVisitsController::class, 'getWebsiteVisits']);
 

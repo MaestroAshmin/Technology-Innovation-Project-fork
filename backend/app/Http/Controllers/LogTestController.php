@@ -13,7 +13,7 @@ use PDF;
 
 class LogTestController extends Controller
 {
-    //
+    // log test result to the database
     function logTest(Request $req) 
     {   
         // Customise error messages
