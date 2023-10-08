@@ -9,6 +9,7 @@ use App\Models\Key;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\TestResult;
 
 class UserController extends Controller
 {
@@ -134,7 +135,7 @@ class UserController extends Controller
     public function getUsers()
     {
         $users = User::where('role', 0)->get();
-        $user->decryptFields();
+        $users->decryptFields();
         return response()->json(['users' => $users]);
     }
     // Get User by ID
@@ -142,77 +143,74 @@ class UserController extends Controller
     {
         // Find the user by ID
         $user = User::find($user_id);
-        $user->decryptFields();
         if (!$user) {
             return response()->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
-
+        $user->decryptFields();
         return response()->json(['message' => 'User found', 'user' => $user], Response::HTTP_OK);
     }
     public function updateUser(Request $request, $user_id)
-{
-    //retrieve the user's encrypted data from the database using user id
-    $user = User::find($user_id);
+    {
+        //retrieve the user's encrypted data from the database using user id
+        $user = User::find($user_id);
 
-    //check if the user exists
-    if (!$user) {
-        return response()->json(['message' => 'User not found'], 404);
+        //check if the user exists
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        //decrypt 
+        $user->decryptFields();
+        $decryptedEmail = $user->email;
+        $requestEmail = $request->input('email');
+
+
+        //compare the decrypted email with the email provided in the request
+        if ($user->email !== $request->input('email')) {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|unique:users,email|email',
+                'gender' => 'required|string',
+                'age' => 'required|integer|gte:10|lte:100',
+                'nationality' => 'required|string|max:255',
+                'postcode' => 'required|integer|digits_between:1,4',
+            ]);
+        }
+
+        //validate the request data and update the user's data
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email',
+            'gender' => 'required|string',
+            'age' => 'required|integer|gte:10|lte:100',
+            'nationality' => 'required|string|max:255',
+            'postcode' => 'required|integer|digits_between:1,4',
+        ]);
+
+        //check if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+
+        //respond, update user info and save
+        $user->fill($request->all()); 
+        //save response with unencrypted data
+        $response = response()->json([
+            'status' => true,
+            'message' => 'Successfully updated details',
+            'user' => $user,
+            'token' => $user->createToken('EDIT DETAILS TOKEN')->plainTextToken
+        ], 200);
+        //encrypt before saving
+        $user->encryptFields();
+        $user->save(); 
+        return $response;
     }
-
-    //decrypt 
-    $user->decryptFields();
-    $decryptedEmail = $user->email;
-    $requestEmail = $request->input('email');
-
-
-    //compare the decrypted email with the email provided in the request
-    if ($user->email !== $request->input('email')) {
-        return response()->json([
-            'message' => 'Email mismatch',
-            'decrypted_email' => $decryptedEmail,
-            'request_email' => $requestEmail,
-        ], 422);
-    }
-
-    //validate the request data and update the user's data
-    $validator = Validator::make($request->all(), [
-        'name' => 'required|string|max:255',
-        'gender' => 'required|string',
-        'age' => 'required|integer|gte:10|lte:100',
-        'nationality' => 'required|string|max:255',
-        'postcode' => 'required|integer|digits_between:1,4',
-    ]);
-
-    //check if validation fails
-    if ($validator->fails()) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Validation Error',
-            'errors' => $validator->errors(),
-        ], 422);
-    }
-
-
-    //respond, update user info and save
-    $user->fill($request->all()); 
-    //save response with unencrypted data
-    $response = response()->json([
-        'status' => true,
-        'message' => 'Successfully updated details',
-        'user' => $user,
-        'token' => $user->createToken('EDIT DETAILS TOKEN')->plainTextToken
-    ], 200);
-    //encrypt before saving
-    $user->encryptFields();
-    $user->save(); 
-
-  
-
-    return $response;
-}
-
-
-    
 
     // Delete User
     public function deleteUser($id)
@@ -225,5 +223,12 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['status'=> true, 'message' => 'User deleted successfully'], 200);
+    }
+    // Get users and their test result
+    public function getAllUsersWithTestResults()
+    {
+        $combinedData = User::with('testResults')->get();
+        $combinedData->decryptFields();
+        return response()->json($combinedData);
     }
 }

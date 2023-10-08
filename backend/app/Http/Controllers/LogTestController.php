@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Key;
 use Illuminate\Support\Facades\Date; 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use PDF;
 
 class LogTestController extends Controller
@@ -96,5 +97,27 @@ class LogTestController extends Controller
             'message' => 'Test result logged successfully',
             'pdf_url' => url('storage/pdf/' . $pdfFileName),
         ];
+    }
+    public function getRiskExposureForPieChart()
+    {
+        // Get the total number of entries
+        $totalEntries = TestResult::count();
+
+        // Fetch risk exposure data and calculate percentages
+        $riskExposureData = TestResult::select('risk_exposure', DB::raw('COUNT(*) as count'))
+            ->groupBy('risk_exposure')
+            ->get();
+
+        // Prepare data for pie chart with percentages
+        $pieChartData = [];
+        foreach ($riskExposureData as $item) {
+            $percentage = ($item->count / $totalEntries) * 100;
+            $pieChartData[] = [
+                'label' => $item->risk_exposure,
+                'percentage' => round($percentage, 2) // Round to 2 decimal places
+            ];
+        }
+
+        return response()->json($pieChartData);
     }
 }
