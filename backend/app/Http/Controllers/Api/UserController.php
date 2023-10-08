@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\TestResult;
 
 class UserController extends Controller
 {
@@ -168,5 +169,13 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['status'=> true, 'message' => 'User deleted successfully'], 200);
+    }
+
+    // Get users and their test result
+    public function getAllUsersWithTestResults()
+    {
+        $combinedData = User::with('testResults')->get();
+
+        return response()->json($combinedData);
     }
 }

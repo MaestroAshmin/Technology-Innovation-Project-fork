@@ -24,24 +24,25 @@ use App\Http\Controllers\AnonymousUserController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
+//Ashmin
 // Public Routes
 Route::post('/register', [UserController::class, 'registerUser']);
 Route::post('/login',  [UserController::class, 'login']);
 
-// Protected routes
 // Password Reset
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+
 // Route::get('/password/reset/{token}', [ResetPasswordController::class, 'reset'])->name('password.reset-form');
-Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
+
+Route::post('/password/reset/{user_id}', [ResetPasswordController::class, 'reset'])->name('password.reset');
 Route::get('/users', [UserController::class, 'getUsers']);
 Route::get('/users/{user_id}', [UserController::class, 'getUserByID']);
 Route::post('/users/{user_id}', [UserController::class, 'updateUser']);
 Route::delete('users/{id}', [UserController::class, 'deleteUser']);
+Route::get('/users-with-test-results', [UserController::class, 'getAllUsersWithTestResults']);
+Route::get('/risk-exposure-pie-chart', [LogTestController::class, 'getRiskExposureForPieChart']);
+
 // Route::get('/users', [UserController::class, 'getUsers'])->middleware('checkUserRole:1');
-Route::post('/services/sort', 'App\Http\Controllers\ListController@sortServices');
-
-
 // Route::middleware(['auth:api', 'checkUserRole:admin'])->group(function () {
 // });
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -67,4 +68,4 @@ Route::post('/searchService', [ServiceController::class, 'searchService']);
 Route::delete('/deleteService/{id}', [ServiceController::class, 'deleteService']);
 Route::post('/addService', [ServiceController::class, 'addService']);
 Route::post('/updateService/{id}', [ServiceController::class, 'updateService']);
-
+Route::post('/services/sort', 'App\Http\Controllers\ListController@sortServices');

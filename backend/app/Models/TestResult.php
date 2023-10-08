@@ -12,5 +12,9 @@ class TestResult extends Model
     protected $table = 'test_result';
     protected  $primaryKey = 'test_result_id';
     public $timestamps=false;
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
 
 }
