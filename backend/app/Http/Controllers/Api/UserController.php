@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\TestResult;
+use Illuminate\Support\Facades\DB;
+
 
 class UserController extends Controller
 {
@@ -135,7 +137,9 @@ class UserController extends Controller
     public function getUsers()
     {
         $users = User::where('role', 0)->get();
-        $users->decryptFields();
+        foreach ($users as $user) {
+            $user->decryptFields();
+        }
         return response()->json(['users' => $users]);
     }
     // Get User by ID
@@ -224,11 +228,34 @@ class UserController extends Controller
 
         return response()->json(['status'=> true, 'message' => 'User deleted successfully'], 200);
     }
-    // Get users and their test result
+
+
     public function getAllUsersWithTestResults()
-    {
-        $combinedData = User::with('testResults')->get();
-        $combinedData->decryptFields();
-        return response()->json($combinedData);
+{
+    //join users and test results
+    $usersWithAllTestResults = DB::table('test_result')
+    ->join('users', 'test_result.user_id', '=', 'users.user_id')
+    ->get();
+
+    //decrypt encrypted fields
+    $encryptedFields = ['name', 'email', 'password', 'gender', 'age', 'nationality', 'postcode', 'test_result', 'risk_exposure', 'reason_for_test'];
+
+    foreach ($usersWithAllTestResults as $record) {
+        $usercrypt = Key::where('user_id', $record->user_id)->first();
+        $key = $usercrypt->encryption_key;
+        $iv = $usercrypt->iv;
+
+        foreach ($encryptedFields as $field) {
+            if (!empty($record->$field)) {
+                $record->$field = openssl_decrypt($record->$field, 'aes-256-cbc', $key, 0, $iv);
+            }
+        }
     }
+
+
+
+    return response()->json($usersWithAllTestResults);
+}
+
+
 }

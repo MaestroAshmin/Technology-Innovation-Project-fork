@@ -100,24 +100,39 @@ class LogTestController extends Controller
     }
     public function getRiskExposureForPieChart()
     {
-        // Get the total number of entries
+        //get total
         $totalEntries = TestResult::count();
-
-        // Fetch risk exposure data and calculate percentages
-        $riskExposureData = TestResult::select('risk_exposure', DB::raw('COUNT(*) as count'))
-            ->groupBy('risk_exposure')
+    
+        //get risk exposure
+        $riskExposureData = TestResult::select('user_id', 'risk_exposure')
             ->get();
-
-        // Prepare data for pie chart with percentages
+    
+        //decrypt and count
+        $count = [];
+        foreach ($riskExposureData as $record) {
+            $usercrypt = Key::where('user_id', $record->user_id)->first();
+            $key = $usercrypt->encryption_key;
+            $iv = $usercrypt->iv;
+            $decryptedRiskExposure = openssl_decrypt($record->risk_exposure, 'aes-256-cbc', $key, 0, $iv);
+    
+            //count
+            if (isset($count[$decryptedRiskExposure])) {
+                $count[$decryptedRiskExposure]++;
+            } else {
+                $count[$decryptedRiskExposure] = 1;
+            }
+        }
+    
+        //calc percentage
         $pieChartData = [];
-        foreach ($riskExposureData as $item) {
-            $percentage = ($item->count / $totalEntries) * 100;
+        foreach ($count as $riskExposure => $occurrences) {
+            $percentage = ($occurrences / $totalEntries) * 100;
             $pieChartData[] = [
-                'label' => $item->risk_exposure,
-                'percentage' => round($percentage, 2) // Round to 2 decimal places
+                'label' => $riskExposure,
+                'percentage' => round($percentage, 2) 
             ];
         }
-
+    
         return response()->json($pieChartData);
     }
-}
+}    
