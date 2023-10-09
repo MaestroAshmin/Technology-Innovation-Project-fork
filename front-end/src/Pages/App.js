@@ -9,6 +9,7 @@ import Services from './Services';
 import LogTest from './LogTest';
 import Admin from './Admin';
 import UserManagement from './UserManagement';
+import FAQsManagement from './FAQsManagement';
 import Faq from './Faq';
 import ProfilePage from './ProfilePage';
 function App() {
@@ -25,9 +26,10 @@ function App() {
           <Route path="/how-to-use" element={<HowToUse />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/users" element={<UserManagement />} />
-          <Route path="/faqs" exact render={() => <div>FAQs Page</div>} />
+          <Route path="admin" element={<Admin />}>
+            <Route path="users" element={<UserManagement />} />
+            <Route path="faqs" element={<FAQsManagement />} />
+          </Route>
           <Route path="/test" element={<LogTest />} />
         </Routes>
       </div>

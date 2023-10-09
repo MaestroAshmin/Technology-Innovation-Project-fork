@@ -1,6 +1,6 @@
-/*Admin Navbar component
+/*Admin Drawer component
 Junaid Saleem 103824753
-Last edited 29/09/2023*/
+Last edited 10/10/2023*/
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
@@ -11,7 +11,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -22,11 +21,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { PeopleAlt, HelpOutline } from '@mui/icons-material';
+import HomeIcon from '@mui/icons-material/Home';
 import { Link } from 'react-router-dom';
-import UserActivityChart from './UserActivityChart';
-import TestResultChart from './TestResultChart';
+import AdminHome from './AdminHome';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import UserManagement from '../Pages/UserManagement';
+import FAQsManagement from '../Pages/FAQsManagement';
 import '../Css/Navbar.css'; //importing the css
-import '../Css/Chart.css';
 
 const drawerWidth = 240;
 
@@ -85,23 +86,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const sections = [
-  { text: 'Users', icon: <PeopleAlt />, link: '/users' },
-  { text: 'FAQs', icon: <HelpOutline />, link: '/faqs' },
+  { text: 'Home', icon: <HomeIcon />, link: '/admin' },
+  { text: 'Users', icon: <PeopleAlt />, link: '/admin/users' },
+  { text: 'FAQs', icon: <HelpOutline />, link: '/admin/faqs' },
 ];
 
-const testData = [
-  { postcode: 'Postcode1', positiveCases: 50 },
-  { postcode: 'Postcode2', positiveCases: 30 },
-  { postcode: 'Postcode3', positiveCases: 20 },
-  { postcode: 'Postcode4', positiveCases: 10 },
-  // Add more data as needed
-];
-
-export default function AdminNavbar() {
+export default function AdminDrawer() {
   const theme = useTheme();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [isItemSelected, setIsItemSelected] = React.useState(false);
+  const { pathname } = useLocation();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -125,9 +119,9 @@ export default function AdminNavbar() {
           >
             <MenuIcon />
           </IconButton>
-          <Link to="/" className=" navbar-item logo navbar-link"><img width="50px" height="50px" src="/images/HRLogoCMYKsmall.jpg" alt="logo" /></Link>
+          <Link to="/admin" className=" navbar-item logo navbar-link"><img width="50px" height="50px" src="/images/HRLogoCMYKsmall.jpg" alt="logo" /></Link>
           <Link to="/login" className={classes.buttonContainer}>
-            <Button variant="outlined" endIcon={<LogoutIcon />} style={{color: 'var(--primaryBackgroundColor)'}}>
+            <Button variant="outlined" endIcon={<LogoutIcon />} style={{ color: 'var(--primaryBackgroundColor)' }}>
               Logout
             </Button>
           </Link>
@@ -153,30 +147,22 @@ export default function AdminNavbar() {
         </DrawerHeader>
         <Divider />
         <List>
-            {sections.map((section, index) => (
-              <ListItem button key={index} component={Link} to={section.link}>
-                <ListItemIcon>{section.icon}</ListItemIcon>
-                <ListItemText primary={section.text} />
-              </ListItem>
-            ))}
+          {sections.map((section, index) => (
+            <ListItem button key={index} selected={section.link === pathname} component={Link} to={section.link}>
+              <ListItemIcon>{section.icon}</ListItemIcon>
+              <ListItemText primary={section.text} />
+            </ListItem>
+          ))}
         </List>
         <Divider />
       </Drawer>
       <Main open={open}>
-        <>
-        { isItemSelected ? 
-          <>
-          </>
-          :
-          <>
-            <DrawerHeader />
-            <div className="chart-main">
-              <UserActivityChart />
-              <TestResultChart data={testData} />
-            </div>
-          </>
-        }
-        </>
+        <DrawerHeader />
+        <Routes>
+          <Route path="" element={<AdminHome />} />
+          <Route path="users" element={<UserManagement />} />
+          <Route path="faqs" element={<FAQsManagement />} />
+        </Routes>
       </Main>
     </Box>
   );
