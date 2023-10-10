@@ -59,6 +59,10 @@ class User extends Authenticatable
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+    public function testResults()
+    {
+        return $this->hasMany(TestResult::class, 'user_id', 'user_id');
+    }
 
     protected $encryptedFields = ['name', 'email', 'password', 'gender', 'age', 'nationality', 'postcode'];
     public function decryptFields()

@@ -30,24 +30,25 @@ use App\Http\Controllers\PDFController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
+//Ashmin
 // Public Routes
 Route::post('/register', [UserController::class, 'registerUser']);
 Route::post('/login',  [UserController::class, 'login']);
 
-// Protected routes
 // Password Reset
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+
 // Route::get('/password/reset/{token}', [ResetPasswordController::class, 'reset'])->name('password.reset-form');
-Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
+
+Route::post('/password/reset/{user_id}', [ResetPasswordController::class, 'reset'])->name('password.reset');
 Route::get('/users', [UserController::class, 'getUsers']);
 Route::get('/users/{user_id}', [UserController::class, 'getUserByID']);
 Route::post('/users/{user_id}', [UserController::class, 'updateUser']);
 Route::delete('users/{id}', [UserController::class, 'deleteUser']);
+Route::get('/users-with-test-results', [UserController::class, 'getAllUsersWithTestResults']);
+Route::get('/risk-exposure-pie-chart', [LogTestController::class, 'getRiskExposureForPieChart']);
+
 // Route::get('/users', [UserController::class, 'getUsers'])->middleware('checkUserRole:1');
-Route::post('/services/sort', 'App\Http\Controllers\ListController@sortServices');
-
-
 // Route::middleware(['auth:api', 'checkUserRole:admin'])->group(function () {
 // });
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -77,4 +78,4 @@ Route::post('/updateService/{id}', [ServiceController::class, 'updateService']);
 Route::get('/usersLoggedInLastNDays/{days}', [ReportUserController::class, 'usersLoggedInLastNDays']);
 Route::get('/usersRegisteredPerPeriod/{period}', [ReportUserController::class, 'usersRegisteredPerPeriod']);
 Route::get('/websiteVisitsInLastNDays/{days}', [WebsiteVisitsController::class, 'getWebsiteVisits']);
-
+Route::post('/services/sort', 'App\Http\Controllers\ListController@sortServices');

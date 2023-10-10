@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Key;
 use Illuminate\Support\Facades\Date; 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use PDF;
 
 class LogTestController extends Controller
@@ -97,4 +98,41 @@ class LogTestController extends Controller
             'pdf_url' => url('storage/pdf/' . $pdfFileName),
         ];
     }
-}
+    public function getRiskExposureForPieChart()
+    {
+        //get total
+        $totalEntries = TestResult::count();
+    
+        //get risk exposure
+        $riskExposureData = TestResult::select('user_id', 'risk_exposure')
+            ->get();
+    
+        //decrypt and count
+        $count = [];
+        foreach ($riskExposureData as $record) {
+            $usercrypt = Key::where('user_id', $record->user_id)->first();
+            $key = $usercrypt->encryption_key;
+            $iv = $usercrypt->iv;
+            $decryptedRiskExposure = openssl_decrypt($record->risk_exposure, 'aes-256-cbc', $key, 0, $iv);
+    
+            //count
+            if (isset($count[$decryptedRiskExposure])) {
+                $count[$decryptedRiskExposure]++;
+            } else {
+                $count[$decryptedRiskExposure] = 1;
+            }
+        }
+    
+        //calc percentage
+        $pieChartData = [];
+        foreach ($count as $riskExposure => $occurrences) {
+            $percentage = ($occurrences / $totalEntries) * 100;
+            $pieChartData[] = [
+                'label' => $riskExposure,
+                'percentage' => round($percentage, 2) 
+            ];
+        }
+    
+        return response()->json($pieChartData);
+    }
+}    
