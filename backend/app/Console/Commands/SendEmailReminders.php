@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB; // Import DB Facade
 use Mail; // Import the Mail facade
+use App\Models\User;
+use App\Models\Key;
 
 class SendEmailReminders extends Command
 {
@@ -38,14 +40,17 @@ class SendEmailReminders extends Command
         ", [$days]);
 
         foreach ($usersToRemind as $user) {
+            $usercrypt = Key::where('user_id', $user->user_id)->first();
+            $key = $usercrypt->encryption_key;
+            $iv = $usercrypt->iv;
             // Get user's email
-            $email = $user->email;
+            $email = openssl_decrypt($user->email, 'aes-256-cbc', $key, 0, $iv);
             // Get user's name
-            $name = $user->name;
+            $name = openssl_decrypt($user->name, 'aes-256-cbc', $key, 0, $iv);
             // Use Laravel's Mail facade to send emails
             Mail::to($email)->send(new ReminderEmail($name));
         }
-
+ 
         // Send reminders to users to take a test again after n days
         $days2 = 30;  //need to add another functionality for admin to change the threshold
         $usersToRetest = DB::select("
@@ -60,14 +65,16 @@ class SendEmailReminders extends Command
         ", [$days2]);
 
         foreach ($usersToRetest as $user) {
+            $usercrypt = Key::where('user_id', $user->user_id)->first();
+            $key = $usercrypt->encryption_key;
+            $iv = $usercrypt->iv;
             // Get user's email
-            $email = $user->email;
+            $email = openssl_decrypt($user->email, 'aes-256-cbc', $key, 0, $iv);
             // Get user's name
-            $name = $user->name;
+            $name = openssl_decrypt($user->name, 'aes-256-cbc', $key, 0, $iv);
             // Use Laravel's Mail facade to send emails
             Mail::to($email)->send(new RetestReminderEmail($name));
         }
-
         $this->info('Email reminders sent successfully.');
     }
 }
