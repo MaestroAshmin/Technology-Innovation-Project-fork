@@ -31,13 +31,13 @@ class SendEmailReminders extends Command
     public function handle()
     {
         // Send reminders to users who have not submitted test results n days after registration
-        $days = 30;  //need to add another functionality for admin to change the threshold
+        $days = 1;  //need to add another functionality for admin to change the threshold
         $usersToRemind = DB::select("
             SELECT u.* 
             FROM users u 
             LEFT JOIN test_result tr ON u.user_id = tr.user_id 
             WHERE tr.user_id IS NULL 
-            AND u.created_at <= NOW() - INTERVAL ? DAY
+            AND u.created_at <= NOW() - INTERVAL ? second
         ", [$days]);
 
         foreach ($usersToRemind as $user) {
@@ -53,7 +53,7 @@ class SendEmailReminders extends Command
         }
  
         // Send reminders to users to take a test again after n days
-        $days2 = 30;  //need to add another functionality for admin to change the threshold
+        $days2 = 1;  //need to add another functionality for admin to change the threshold
         $usersToRetest = DB::select("
             SELECT u.*
             FROM users u
@@ -62,7 +62,7 @@ class SendEmailReminders extends Command
                 FROM test_result
                 GROUP BY user_id
             ) tr ON u.user_id = tr.user_id
-            WHERE tr.latest_test_date <= NOW() - INTERVAL ? DAY;
+            WHERE tr.latest_test_date <= NOW() - INTERVAL ? second
         ", [$days2]);
 
         foreach ($usersToRetest as $user) {
