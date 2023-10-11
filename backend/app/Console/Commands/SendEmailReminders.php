@@ -5,7 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB; // Import DB Facade
 use Mail; // Import the Mail facade
-use App\Models\User;
+use App\Mail\ReminderEmail;
+use App\Mail\RetestReminderEmail;
 use App\Models\Key;
 
 class SendEmailReminders extends Command

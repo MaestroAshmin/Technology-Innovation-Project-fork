@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        User::factory()->create([
+        /**User::factory()->create([
              'name' => 'Test User1',
              'username' => 'a1',
              'email' => 'yxie0629@gmail.com',
@@ -93,7 +93,7 @@ class DatabaseSeeder extends Seeder
             'password' => '1234',
             'role' => 0,
             'created_at' => '2021-03-01'
-        ]);
+        ]);*/
 
         TestResult::factory()->create([
             'user_id' => 1,
