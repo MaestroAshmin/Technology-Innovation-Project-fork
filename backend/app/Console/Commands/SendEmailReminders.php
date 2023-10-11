@@ -71,11 +71,12 @@ class SendEmailReminders extends Command
                 $key = $usercrypt->encryption_key;
                 $iv = $usercrypt->iv;
                 // Get user's email
-                $email = openssl_decrypt($user->email, 'aes-256-cbc', $key, 0, $iv);
+                $email2 = openssl_decrypt($user->email, 'aes-256-cbc', $key, 0, $iv);
                 // Get user's name
-                $name = openssl_decrypt($user->name, 'aes-256-cbc', $key, 0, $iv);
+                $name2 = openssl_decrypt($user->name, 'aes-256-cbc', $key, 0, $iv);
+                var_dump($name2);
                 // Use Laravel's Mail facade to send emails
-                Mail::to($email)->send(new RetestReminderEmail($name));
+                Mail::to($email2)->send(new RetestReminderEmail($name2));
             }
             $this->info('Email reminders sent successfully.');
         } catch (\Exception $e) {
