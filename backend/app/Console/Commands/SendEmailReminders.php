@@ -30,9 +30,10 @@ class SendEmailReminders extends Command
      */
     public function handle()
     {
-        // Send reminders to users who have not submitted test results n days after registration
-        $days = 1;  //need to add another functionality for admin to change the threshold
-        $usersToRemind = DB::select("
+        try {
+            // Send reminders to users who have not submitted test results n days after registration
+            $days = 1; // need to add another functionality for admin to change the threshold
+            $usersToRemind = DB::select("
             SELECT u.* 
             FROM users u 
             LEFT JOIN test_result tr ON u.user_id = tr.user_id 
@@ -40,21 +41,21 @@ class SendEmailReminders extends Command
             AND u.created_at <= NOW() - INTERVAL ? second
         ", [$days]);
 
-        foreach ($usersToRemind as $user) {
-            $usercrypt = Key::where('user_id', $user->user_id)->first();
-            $key = $usercrypt->encryption_key;
-            $iv = $usercrypt->iv;
-            // Get user's email
-            $email = openssl_decrypt($user->email, 'aes-256-cbc', $key, 0, $iv);
-            // Get user's name
-            $name = openssl_decrypt($user->name, 'aes-256-cbc', $key, 0, $iv);
-            // Use Laravel's Mail facade to send emails
-            Mail::to($email)->send(new ReminderEmail($name));
-        }
- 
-        // Send reminders to users to take a test again after n days
-        $days2 = 1;  //need to add another functionality for admin to change the threshold
-        $usersToRetest = DB::select("
+            foreach ($usersToRemind as $user) {
+                $usercrypt = Key::where('user_id', $user->user_id)->first();
+                $key = $usercrypt->encryption_key;
+                $iv = $usercrypt->iv;
+                // Get user's email
+                $email = openssl_decrypt($user->email, 'aes-256-cbc', $key, 0, $iv);
+                // Get user's name
+                $name = openssl_decrypt($user->name, 'aes-256-cbc', $key, 0, $iv);
+                // Use Laravel's Mail facade to send emails
+                Mail::to($email)->send(new ReminderEmail($name));
+            }
+
+            // Send reminders to users to take a test again after n days
+            $days2 = 1; // need to add another functionality for admin to change the threshold
+            $usersToRetest = DB::select("
             SELECT u.*
             FROM users u
             INNER JOIN (
@@ -65,17 +66,21 @@ class SendEmailReminders extends Command
             WHERE tr.latest_test_date <= NOW() - INTERVAL ? second
         ", [$days2]);
 
-        foreach ($usersToRetest as $user) {
-            $usercrypt = Key::where('user_id', $user->user_id)->first();
-            $key = $usercrypt->encryption_key;
-            $iv = $usercrypt->iv;
-            // Get user's email
-            $email = openssl_decrypt($user->email, 'aes-256-cbc', $key, 0, $iv);
-            // Get user's name
-            $name = openssl_decrypt($user->name, 'aes-256-cbc', $key, 0, $iv);
-            // Use Laravel's Mail facade to send emails
-            Mail::to($email)->send(new RetestReminderEmail($name));
+            foreach ($usersToRetest as $user) {
+                $usercrypt = Key::where('user_id', $user->user_id)->first();
+                $key = $usercrypt->encryption_key;
+                $iv = $usercrypt->iv;
+                // Get user's email
+                $email = openssl_decrypt($user->email, 'aes-256-cbc', $key, 0, $iv);
+                // Get user's name
+                $name = openssl_decrypt($user->name, 'aes-256-cbc', $key, 0, $iv);
+                // Use Laravel's Mail facade to send emails
+                Mail::to($email)->send(new RetestReminderEmail($name));
+            }
+            $this->info('Email reminders sent successfully.');
+        } catch (\Exception $e) {
+            // Handle exceptions here, e.g., log the error, send an alert, etc.
+            $this->error('Error sending email reminders: ' . $e->getMessage());
         }
-        $this->info('Email reminders sent successfully.');
     }
 }
