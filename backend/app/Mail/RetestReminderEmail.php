@@ -16,9 +16,11 @@ class RetestReminderEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($name2)
+
+    public $name;
+    public function __construct($name)
     {
-        $this->name = $name2;
+        $this->name = $name;
     }
 
     /**
