@@ -69,6 +69,61 @@ class UserController extends Controller
             'token' => $user->createToken('REGISTER TOKEN')->plainTextToken
         ], 200);
     }
+    // Add User For Dashboard
+    public function addUser(Request $request){
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string|unique:users,username',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|unique:users,email|email',
+            'password' => 'required|string|min:8|confirmed',
+            'gender' => 'required|string',
+            'age' => 'required|integer|gte:10|lte:100',
+            'role' => 'required|integer|gte:0|lte:1',
+            'nationality' => 'required|string|max:255',
+            'postcode' => 'required|integer|digits_between:1,4',
+        ]);
+
+        //check if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], 422); // HTTP status code 422 for validation errors
+        }
+
+         //generate salt and iv for encryption
+         $salt = random_bytes(16);
+         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+        //gen key
+         $key = hash_pbkdf2('sha256', $request->input('password'), $salt, 10000, 32, true);
+
+        $user = User::create([
+            'username' => $request->input('username'),
+            'name' => openssl_encrypt($request->input('name'), 'aes-256-cbc', $key, 0, $iv),
+            'email' => openssl_encrypt($request->input('email'), 'aes-256-cbc', $key, 0, $iv),
+            'password' => openssl_encrypt($request->input('password'), 'aes-256-cbc', $key, 0, $iv),
+            'gender' => openssl_encrypt($request->input('gender'), 'aes-256-cbc', $key, 0, $iv),
+            'age' => openssl_encrypt($request->input('age'), 'aes-256-cbc', $key, 0, $iv),
+            'nationality' => openssl_encrypt($request->input('nationality'), 'aes-256-cbc', $key, 0, $iv),
+            'postcode' => openssl_encrypt($request->input('postcode'), 'aes-256-cbc', $key, 0, $iv),
+            'role' => $request->input('role'),
+            'last_login' => now(),
+        ]);
+        //create key table row with user id key and iv
+        $usercrypt = Key::create([
+            'user_id' => $user -> user_id,
+            'encryption_key' => $key,
+            'iv' => $iv,
+        ]);
+        return response()->JSON([
+            'status' => true,
+            'message' => 'User Added Successfully.',
+            'token' => $user->createToken('REGISTER TOKEN')->plainTextToken
+        ], 200);
+    }
     public function login(Request $request)
     {
         //validate the request data
