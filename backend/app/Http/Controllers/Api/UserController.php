@@ -44,6 +44,15 @@ class UserController extends Controller
 
         //gen key
          $key = hash_pbkdf2('sha256', $request->input('password'), $salt, 10000, 32, true);
+        
+        //uncomment to make admin user using postman with role = 1. for dev use
+         if ($request->input('role') == null) {
+            $roleconst = 0;
+        } else if ($request->input('role') == '1') {
+            $roleconst = 1;
+        } else {
+            $roleconst = 0;
+        }
 
         $user = User::create([
             'username' => $request->input('username'),
@@ -54,8 +63,9 @@ class UserController extends Controller
             'age' => openssl_encrypt($request->input('age'), 'aes-256-cbc', $key, 0, $iv),
             'nationality' => openssl_encrypt($request->input('nationality'), 'aes-256-cbc', $key, 0, $iv),
             'postcode' => openssl_encrypt($request->input('postcode'), 'aes-256-cbc', $key, 0, $iv),
-            'role' => 0, // role is 0 by default for user registration indicating a normal user
+            'role' => $roleconst, // role is 0 by default for user registration indicating a normal user
             'last_login' => now(),
+            
         ]);
         //create key table row with user id key and iv
         $usercrypt = Key::create([
