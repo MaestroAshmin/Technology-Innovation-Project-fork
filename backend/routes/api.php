@@ -35,6 +35,7 @@ use App\Http\Controllers\PDFController;
 Route::post('/register', [UserController::class, 'registerUser']);
 Route::post('/login',  [UserController::class, 'login']);
 
+Route::post('/add-user', [UserController::class, 'addUser']);
 // Password Reset
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 
