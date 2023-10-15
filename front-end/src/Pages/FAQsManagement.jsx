@@ -1,7 +1,7 @@
 /*FAQs Management Page
 Junaid Saleem 103824753
-Last edited 10/10/2023*/
-import React, { useState } from 'react';
+Last edited 15/10/2023*/
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import {
     Table,
@@ -20,6 +20,8 @@ import {
     IconButton,
 } from '@mui/material';
 import { Delete } from '@mui/icons-material';
+import { apiUrl } from '../Contants';
+import axios from 'axios';
 
 const useStyles = makeStyles({
     table: {
@@ -33,28 +35,82 @@ const useStyles = makeStyles({
     },
 });
 
-const initialFAQs = [
-    {
-        faq_id: 1,
-        question: 'What is a FAQ?',
-        answer: 'A FAQ is a list of frequently asked questions and their answers.',
-    },
-    {
-        faq_id: 2,
-        question: 'How do I create a FAQ?',
-        answer: 'To create a FAQ, you need to define a question and provide an answer.',
-    },
-];
+const apiPaths = {
+    getFaqs: '/listFaq',
+    addFaq: '/addFaq',
+    updateFaq: '/updateFaq/',
+    deleteFaq: '/deleteFaq/'
+}
 
 function FAQManagement() {
     const classes = useStyles();
-    const [faqs, setFAQs] = useState(initialFAQs);
+    const [faqs, setFAQs] = useState([]);
     const [editingFAQId, setEditingFAQId] = useState(null);
     const [currentFAQ, setCurrentFAQ] = useState({
         faq_id: null,
         question: '',
         answer: '',
     });
+
+    const fetchFAQs = () => {
+        axios.get(apiUrl + apiPaths.getFaqs)
+            .then((response) => {
+                // Handle the successful response here
+                setFAQs(response.data);
+            })
+            .catch((error) => {
+                // Handle any errors that occurred during the request
+                console.error('Error:', error);
+            });
+    };
+
+    const addFAQ = () => {
+        const newFAQ = {
+            question: currentFAQ.question,
+            answer: currentFAQ.answer,
+        };
+        axios.post(apiUrl + apiPaths.addFaq, newFAQ)
+            .then((response) => {
+                fetchFAQs();
+                closeModal(); // Close the modal after adding the user
+            })
+            .catch((error) => {
+                // Handle any errors that occurred during the request
+                console.error('Error:', error);
+            });
+        setCurrentFAQ({
+            faq_id: null,
+            question: '',
+            answer: '',
+        });
+    };
+
+    const updateFAQ = (updatedFAQ) => {
+        axios.post(apiUrl + apiPaths.updateFaq + updatedFAQ.faq_id, { question: updatedFAQ.question, answer: updatedFAQ.answer })
+            .then((response) => {
+                fetchFAQs();
+                closeModal(); // Close the modal after adding the user
+            })
+            .catch((error) => {
+                // Handle any errors that occurred during the request
+                console.error('Error:', error);
+            });
+    };
+
+    const deleteFAQ = (faqID) => {
+        axios.delete(apiUrl + apiPaths.deleteFaq + faqID)
+            .then((response) => {
+                fetchFAQs();
+            })
+            .catch((error) => {
+                // Handle any errors that occurred during the request
+                console.error('Error:', error);
+            });
+    }
+
+    useEffect(() => {
+        fetchFAQs();
+    }, []);
 
     // State for the modal
     const [isModalOpen, setModalOpen] = useState(false);
@@ -66,8 +122,7 @@ function FAQManagement() {
     };
 
     const handleDelete = (faqId) => {
-        const updatedFAQs = faqs.filter((faq) => faq.faq_id !== faqId);
-        setFAQs(updatedFAQs);
+        deleteFAQ(faqId);
     };
 
     // Function to open the modal
@@ -82,27 +137,16 @@ function FAQManagement() {
 
     // Function to save the new FAQ and close the modal
     const handleSaveModal = () => {
-        // Generate a unique FAQ ID for the new FAQ
-        const newFAQId = faqs.length + 1;
-        const newFAQ = {
-            faq_id: newFAQId,
-            question: currentFAQ.question,
-            answer: currentFAQ.answer,
-        };
-        setFAQs([...faqs, newFAQ]);
-        setCurrentFAQ({
-            faq_id: null,
-            question: '',
-            answer: '',
-        });
-        closeModal(); // Close the modal after saving
+        addFAQ();
     };
 
     const handleSave = (faqId) => {
-        const updatedFAQs = faqs.map((faq) =>
-            faq.faq_id === faqId ? { ...faq, ...currentFAQ } : faq
-        );
-        setFAQs(updatedFAQs);
+        const updatedFAQ = {
+            faq_id: faqId,
+            ...currentFAQ
+        };
+
+        updateFAQ(updatedFAQ);
         setEditingFAQId(null);
         setCurrentFAQ({
             faq_id: null,

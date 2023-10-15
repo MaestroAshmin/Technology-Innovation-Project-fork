@@ -1,7 +1,7 @@
 /*User Management Page
 Junaid Saleem 103824753
-Last edited 10/10/2023*/
-import React, { useState } from 'react';
+Last edited 15/10/2023*/
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import {
   Table,
@@ -18,8 +18,11 @@ import {
   DialogContent,
   DialogActions,
   IconButton,
+  MenuItem
 } from '@mui/material';
 import { Delete } from '@mui/icons-material';
+import { apiUrl } from '../Contants';
+import axios from 'axios';
 
 const useStyles = makeStyles({
   table: {
@@ -33,50 +36,19 @@ const useStyles = makeStyles({
   },
 });
 
-const initialUsers = [
-  {
-    user_id: 1,
-    email: 'user1@example.com',
-    password: 'password1',
-    name: 'John Doe',
-    age: 30,
-    gender: 'Male',
-    nationality: 'USA',
-    postcode: '12345',
-  },
-  {
-    user_id: 2,
-    email: 'user2@example.com',
-    password: 'password2',
-    name: 'Jane Smith',
-    age: 25,
-    gender: 'Female',
-    nationality: 'Canada',
-    postcode: '67890',
-  },
-];
+const apiPaths = {
+  getUsers: '/users',
+  addUser: '/add-user',
+  updateUser: '/users/',
+  deleteUser: '/users/'
+}
 
 
 function UserManagement() {
   const classes = useStyles();
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
   const [editingUserId, setEditingUserId] = useState(null);
-  const [currentUser, setCurrentUser] = useState({
-    user_id: null,
-    email: '',
-    password: '',
-    name: '',
-    age: null,
-    gender: '',
-    nationality: '',
-    postcode: ''
-  });
-
-  // Modal state
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  // Modal user input state
-  const [modalUser, setModalUser] = useState({
+  const [fieldErrors, setFieldErrors] = useState({
     email: '',
     password: '',
     name: '',
@@ -84,7 +56,121 @@ function UserManagement() {
     gender: '',
     nationality: '',
     postcode: '',
+    username: '',
   });
+  const [modalUser, setModalUser] = useState({
+    email: '',
+    username: '',
+    password: '',
+    password_confirmation: '',
+    name: '',
+    age: '',
+    gender: '',
+    nationality: '',
+    postcode: '',
+    role: 0
+  });
+  const [currentUser, setCurrentUser] = useState({
+    user_id: null,
+    email: '',
+    username: '',
+    password: '',
+    password_confirmation: '',
+    name: '',
+    age: null,
+    gender: '',
+    nationality: '',
+    postcode: '',
+    role: 0
+  });
+
+  const fetchUsers = () => {
+    axios.get(apiUrl + apiPaths.getUsers)
+      .then((response) => {
+        // Handle the successful response here
+        setUsers(response.data.users);
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the request
+        console.error('Error:', error);
+      });
+  };
+
+  const addUsers = () => {
+    const newUser = {
+      ...modalUser,
+    };
+
+    axios.post(apiUrl + apiPaths.addUser, newUser)
+      .then((response) => {
+        fetchUsers();
+        closeModal(); // Close the modal after adding the user
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the request
+        console.error('Error:', error);
+      });
+  };
+
+  const updateUser = (updatedUser, userID) => {
+    axios.post(apiUrl + apiPaths.updateUser + userID, updatedUser)
+      .then((response) => {
+        fetchUsers();
+        closeModal(); // Close the modal after adding the user
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the request
+        console.error('Error:', error);
+      });
+  };
+
+  const deleteUser = (userID) => {
+    axios.delete(apiUrl + apiPaths.deleteUser + userID)
+      .then((response) => {
+        fetchUsers();
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the request
+        console.error('Error:', error);
+      });
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [])
+
+  //Modal state
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const validateFields = () => {
+    const errors = {};
+
+    // Validate email using a regular expression
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!modalUser.email) {
+      errors.email = 'Email is required';
+    } else if (!emailRegex.test(modalUser.email)) {
+      errors.email = 'Invalid email address';
+    }
+
+    // Validate password (minimum 8 characters)
+    if (!modalUser.password) {
+      errors.password = 'Password is required';
+    } else if (modalUser.password.length < 8) {
+      errors.password = 'Password must be at least 8 characters';
+    }
+
+    // Validate password (minimum 8 characters)
+    if (modalUser.password != modalUser.password_confirmation) {
+      errors.password = 'Confirm Password should be same as password';
+    } else if (modalUser.password.length < 8) {
+      errors.password = 'Password must be at least 8 characters';
+    }
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
 
   const handleEdit = (userId) => {
     setEditingUserId(userId);
@@ -92,62 +178,28 @@ function UserManagement() {
     setCurrentUser(userToEdit);
   };
 
-  const handleGenderChange = (event) => {
-    const updatedGender = event.target.value;
-    setCurrentUser({
-      ...currentUser,
-      gender: updatedGender
-    });
-  };
-
-  const handleNameChange = (event) => {
-    const updatedName = event.target.value;
-    setCurrentUser({
-      ...currentUser,
-      name: updatedName
-    });
-  };
-
-  const handleAgeChange = (event) => {
-    const updatedAge = event.target.value;
-    setCurrentUser({
-      ...currentUser,
-      age: updatedAge
-    });
-  };
-
-  const handleNationalityChange = (event) => {
-    const updatedNationality = event.target.value;
-    setCurrentUser({
-      ...currentUser,
-      nationality: updatedNationality
-    });
-  };
-
-  const handlePostcodeChange = (event) => {
-    const updatedPostcode = event.target.value;
-    setCurrentUser({
-      ...currentUser,
-      postcode: updatedPostcode
-    });
-  };
-
   // Function to delete a user
-  const deleteUser = (userId) => {
-    const updatedUsers = users.filter((user) => user.user_id !== userId);
-    setUsers(updatedUsers);
+  const handleDeleteUser = (userId) => {
+    deleteUser(userId);
   };
 
   const handleSave = (userId) => {
-    const updatedUsers = users.map((user) =>
-      user.user_id === userId ? { ...user, ...currentUser } : user
-    );
-    setUsers(updatedUsers);
+    const updatedUser = {
+      email: currentUser.email,
+      name: currentUser.name,
+      age: currentUser.age,
+      gender: currentUser.gender,
+      nationality: currentUser.nationality,
+      postcode: currentUser.postcode,
+    }
+    updateUser(updatedUser, userId);
     setEditingUserId(null);
     setCurrentUser({
       user_id: null,
       email: '',
+      username: '',
       password: '',
+      password_confirmation: '',
       name: '',
       age: null,
       gender: '',
@@ -167,6 +219,7 @@ function UserManagement() {
     // Clear modalUser state when the modal is closed
     setModalUser({
       email: '',
+      username: '',
       password: '',
       name: '',
       age: '',
@@ -178,14 +231,9 @@ function UserManagement() {
 
   // Function to add a new user
   const addUser = () => {
-    // Generate a unique user_id for the new user
-    const newUserId = users.length + 1;
-    const newUser = {
-      user_id: newUserId,
-      ...modalUser,
-    };
-    setUsers([...users, newUser]);
-    closeModal(); // Close the modal after adding the user
+    if (validateFields()) {
+      addUsers();
+    }
   };
 
   const renderUserRow = (user) => {
@@ -195,25 +243,41 @@ function UserManagement() {
       <TableRow key={user.user_id}>
         <TableCell>{user.user_id}</TableCell>
         <TableCell>{user.email}</TableCell>
-        <TableCell>{isEditing ? <TextField label="Name" defaultValue={user.name} onChange={handleNameChange} /> : user.name}</TableCell>
-        <TableCell>{isEditing ? <TextField label="Age" defaultValue={user.age} onChange={handleAgeChange} /> : user.age}</TableCell>
         <TableCell>
           {isEditing ? (
-            <TextField label="Gender" defaultValue={user.gender} onChange={handleGenderChange} />
+            <TextField label="Username" defaultValue={user.username} onChange={(e) => setCurrentUser({ ...currentUser, username: e.target.value })} />
+          ) : (
+            user.username
+          )}
+        </TableCell>
+        <TableCell>{isEditing ? <TextField label="Name" defaultValue={user.name} onChange={(e) => setCurrentUser({ ...currentUser, name: e.target.value })} /> : user.name}</TableCell>
+        <TableCell>{isEditing ? <TextField label="Age" defaultValue={user.age} onChange={(e) => setCurrentUser({ ...currentUser, age: e.target.value })} /> : user.age}</TableCell>
+        <TableCell>
+          {isEditing ? (
+            <TextField
+              select
+              fullWidth
+              label="Gender"
+              defaultValue={user.gender}
+              onChange={(e) => setCurrentUser({ ...currentUser, gender: e.target.value })}
+            >
+              <MenuItem value={'Male'}>Male</MenuItem>
+              <MenuItem value={'Female'}>Female</MenuItem>
+            </TextField>
           ) : (
             user.gender
           )}
         </TableCell>
         <TableCell>
           {isEditing ? (
-            <TextField label="Nationality" defaultValue={user.nationality} onChange={handleNationalityChange} />
+            <TextField label="Nationality" defaultValue={user.nationality} onChange={(e) => setCurrentUser({ ...currentUser, nationality: e.target.value })} />
           ) : (
             user.nationality
           )}
         </TableCell>
         <TableCell>
           {isEditing ? (
-            <TextField label="Postcode" defaultValue={user.postcode} onChange={handlePostcodeChange} />
+            <TextField label="Postcode" defaultValue={user.postcode} onChange={(e) => setCurrentUser({ ...currentUser, postcode: e.target.value })} />
           ) : (
             user.postcode
           )}
@@ -225,8 +289,8 @@ function UserManagement() {
             <>
               <Button onClick={() => handleEdit(user.user_id)}>Edit</Button>
               <IconButton
-                onClick={() => deleteUser(user.user_id)}
-                style={{ color: 'lightcoral'}}
+                onClick={() => handleDeleteUser(user.user_id)}
+                style={{ color: 'lightcoral' }}
               >
                 <Delete />
               </IconButton>
@@ -242,7 +306,7 @@ function UserManagement() {
       <h2>User Management</h2>
 
       {/* Button to open the modal for adding a user */}
-      <Button variant="outlined" onClick={openModal} style={{marginBottom: 10}}>
+      <Button variant="outlined" onClick={openModal} style={{ marginBottom: 10 }}>
         Add User
       </Button>
 
@@ -263,10 +327,26 @@ function UserManagement() {
               onChange={(e) => setModalUser({ ...modalUser, email: e.target.value })}
             />
             <TextField
+              label="Username"
+              fullWidth
+              value={modalUser.username}
+              onChange={(e) => setModalUser({ ...modalUser, username: e.target.value })}
+            />
+            <TextField
               label="Password"
               fullWidth
               value={modalUser.password}
-              onChange={(e) => setModalUser({ ...modalUser, password: e.target.value })}
+              type="password"
+              onChange={(e) => setModalUser({ ...modalUser, password: e.target.value })} s
+            />
+            <TextField
+              label="Confirm Password"
+              fullWidth
+              value={modalUser.password_confirmation}
+              type="password"
+              onChange={(e) => setModalUser({ ...modalUser, password_confirmation: e.target.value })}
+              error={!!fieldErrors.password}
+              helperText={fieldErrors.password}
             />
             <TextField
               label="Name"
@@ -281,11 +361,15 @@ function UserManagement() {
               onChange={(e) => setModalUser({ ...modalUser, age: e.target.value })}
             />
             <TextField
+              select
               label="Gender"
               fullWidth
               value={modalUser.gender}
               onChange={(e) => setModalUser({ ...modalUser, gender: e.target.value })}
-            />
+            >
+              <MenuItem value={'Male'}>Male</MenuItem>
+              <MenuItem value={'Female'}>Female</MenuItem>
+            </TextField>
             <TextField
               label="Nationality"
               fullWidth
@@ -298,6 +382,16 @@ function UserManagement() {
               value={modalUser.postcode}
               onChange={(e) => setModalUser({ ...modalUser, postcode: e.target.value })}
             />
+            <TextField
+              select
+              label="Role"
+              fullWidth
+              value={modalUser.role}
+              onChange={(e) => setModalUser({ ...modalUser, role: parseInt(e.target.value, 10) })}
+            >
+              <MenuItem value={0}>User</MenuItem>
+              <MenuItem value={1}>Admin</MenuItem>
+            </TextField>
           </form>
         </DialogContent>
         <DialogActions>
@@ -317,6 +411,7 @@ function UserManagement() {
             <TableRow>
               <TableCell>User ID</TableCell>
               <TableCell>Email</TableCell>
+              <TableCell>Username</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Age</TableCell>
               <TableCell>Gender</TableCell>

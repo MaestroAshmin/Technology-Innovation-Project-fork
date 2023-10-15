@@ -72,14 +72,13 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   marginTop: '20px',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
 
 const useStyles = makeStyles((theme) => ({
   buttonContainer: {
-    marginLeft: 'auto', // This will push the button to the right
+    marginLeft: 'auto',
     background: 'white',
     borderRadius: 5
   },
@@ -105,6 +104,19 @@ export default function AdminDrawer() {
     setOpen(false);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('age');
+    localStorage.removeItem('gender');
+    localStorage.removeItem('nationality');
+    localStorage.removeItem('postcode');
+    localStorage.removeItem('name');
+    localStorage.removeItem('password');
+    localStorage.removeItem('email');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -121,7 +133,7 @@ export default function AdminDrawer() {
           </IconButton>
           <Link to="/admin" className=" navbar-item logo navbar-link"><img width="50px" height="50px" src="/images/HRLogoCMYKsmall.jpg" alt="logo" /></Link>
           <Link to="/login" className={classes.buttonContainer}>
-            <Button variant="outlined" endIcon={<LogoutIcon />} style={{ color: 'var(--primaryBackgroundColor)' }}>
+            <Button variant="outlined" endIcon={<LogoutIcon />} style={{ color: 'var(--primaryBackgroundColor)' }} onClick={handleLogout}>
               Logout
             </Button>
           </Link>

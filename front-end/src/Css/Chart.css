@@ -1,7 +1,7 @@
 /*
 Chart Component CSS Styles 
 Junaid Saleem 103824753
-Last edited 5/10/2023
+Last edited 15/10/2023
 */
 .chart-container {
     flex: 1;
@@ -14,6 +14,20 @@ Last edited 5/10/2023
     background-color: #fff;
     height: auto;
     width: 40%;
+}
+
+.chart-speedo-container {
+    flex: 1;
+    padding: 1rem;
+    margin: 1rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    height: auto;
+    width: 40%;
+    text-align: center;
 }
 
 .chart-title {
@@ -54,6 +68,12 @@ Last edited 5/10/2023
     border-color: #007bff; /* Change border color when focused */
     background-color: #fff; /* Change background color when focused */
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a subtle box shadow */
+}
+
+.centered-chart {
+    margin-top: 50px;
+    display: inline-block;
+    vertical-align: middle;
 }
   
   
