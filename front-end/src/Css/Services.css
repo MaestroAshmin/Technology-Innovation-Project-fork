@@ -4,6 +4,9 @@ Last edited 21/09/2023*/
   .header {
     text-align: center;
     margin: 20px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 5%;
   }
   
   .header-text {
@@ -17,6 +20,8 @@ Last edited 21/09/2023*/
     align-items: center;
     margin-top: 0;
     padding: 2em;
+    background-color: #f5f5f5;
+    color: var(--primaryBackgroundColor);
   }
   
   .topRow {
@@ -59,6 +64,8 @@ Last edited 21/09/2023*/
     box-sizing: border-box;
     overflow-y: auto;
     height: 20em;
+    background-color: white;
+    border-radius: 8px;
   }
   
   .list-item {
